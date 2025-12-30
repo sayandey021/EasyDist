@@ -1,5 +1,6 @@
 # EasyDist - Microsoft Store Description
 
+
 ## Description
 
 **Simplify Your Software Distribution**
