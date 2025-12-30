@@ -1,0 +1,119 @@
+{
+  "name": "nextn",
+  "version": "1.2.0",
+  "description": "EasyDist - Distribution Helper Tool",
+  "author": "Saayan Studio",
+  "private": true,
+  "main": "electron/main.js",
+  "scripts": {
+    "dev": "next dev --turbopack -p 9002",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "electron:dev": "concurrently -k \"cross-env NODE_ENV=development npm run dev\" \"wait-on http://localhost:9002 && cross-env NODE_ENV=development electron .\"",
+    "electron:build": "npm run build && electron-builder",
+    "electron:build:nsis": "npm run build && electron-builder --win nsis",
+    "electron:build:msix": "npm run build && electron-builder --win appx",
+    "package": "electron-builder --dir"
+  },
+  "build": {
+    "appId": "com.saayanstudio.easydist",
+    "productName": "EasyDist",
+    "icon": "icon.png",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "out/**/*",
+      "electron/**/*",
+      "package.json",
+      "icon.png"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "appx"
+      ],
+      "icon": "icon.png"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "include": "installer/uninstaller.nsh"
+    },
+    "appx": {
+      "identityName": "Saayan.EasyDist",
+      "publisher": "CN=37E2AF47-D2FC-489C-BDC1-02C989A7B989",
+      "publisherDisplayName": "Saayan",
+      "applicationId": "EasyDist",
+      "displayName": "EasyDist",
+      "minVersion": "10.0.17763.0",
+      "languages": [
+        "en-US"
+      ],
+      "showNameOnTiles": true,
+      "backgroundColor": "#1f1f23",
+      "electronUpdaterAware": false
+    }
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^4.1.3",
+    "@radix-ui/react-accordion": "^1.2.3",
+    "@radix-ui/react-alert-dialog": "^1.1.6",
+    "@radix-ui/react-avatar": "^1.1.3",
+    "@radix-ui/react-checkbox": "^1.1.4",
+    "@radix-ui/react-collapsible": "^1.1.11",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-dropdown-menu": "^2.1.6",
+    "@radix-ui/react-label": "^2.1.2",
+    "@radix-ui/react-menubar": "^1.1.6",
+    "@radix-ui/react-popover": "^1.1.6",
+    "@radix-ui/react-progress": "^1.1.2",
+    "@radix-ui/react-radio-group": "^1.2.3",
+    "@radix-ui/react-scroll-area": "^1.2.3",
+    "@radix-ui/react-select": "^2.1.6",
+    "@radix-ui/react-separator": "^1.1.2",
+    "@radix-ui/react-slider": "^1.2.3",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@radix-ui/react-switch": "^1.1.3",
+    "@radix-ui/react-tabs": "^1.1.3",
+    "@radix-ui/react-toast": "^1.2.6",
+    "@radix-ui/react-tooltip": "^1.1.8",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^3.6.0",
+    "dotenv": "^16.5.0",
+    "electron-serve": "^3.0.0",
+    "electron-store": "^11.0.2",
+    "embla-carousel-react": "^8.6.0",
+    "framer-motion": "^12.23.26",
+    "koffi": "^2.14.1",
+    "lucide-react": "^0.475.0",
+    "mica-electron": "^1.5.16",
+    "next": "15.3.8",
+    "next-themes": "^0.3.0",
+    "patch-package": "^8.0.0",
+    "react": "^18.3.1",
+    "react-day-picker": "^8.10.1",
+    "react-dom": "^18.3.1",
+    "react-hook-form": "^7.54.2",
+    "recharts": "^2.15.1",
+    "tailwind-merge": "^3.0.1",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^18",
+    "@types/react-dom": "^18",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "electron": "^39.2.7",
+    "electron-builder": "^26.0.12",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5",
+    "wait-on": "^9.0.3"
+  }
+}

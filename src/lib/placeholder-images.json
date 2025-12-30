@@ -1,0 +1,64 @@
+{
+  "placeholderImages": [
+    {
+      "id": "dashboard-hero",
+      "description": "Abstract shapes and lines representing distribution and acceleration.",
+      "imageUrl": "https://images.unsplash.com/photo-1562575214-da9fcf59b907?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhYnN0cmFjdCUyMHRlY2h8ZW58MHx8fHwxNzY0NzQwMjgzfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract tech"
+    },
+    {
+      "id": "tool-winget",
+      "description": "A card image representing the WinGet tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1680128370050-437928cd0b6c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHx3aW5kb3dzJTIwbG9nb3xlbnwwfHx8fDE3NjQ3MDM0ODd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "windows logo"
+    },
+    {
+      "id": "tool-chocolatey",
+      "description": "A card image representing the Chocolatey tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1702610275121-4ce979d60884?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjaG9jb2xhdGUlMjBjb2RlfGVufDB8fHx8MTc2NDc4MTI3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "chocolate code"
+    },
+    {
+      "id": "tool-scoop",
+      "description": "A card image representing the Scoop tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1651383139136-a23aa33bc9ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxpY2VjcmVhbSUyMHNjb29wfGVufDB8fHx8MTc2NDc4MTI3Mnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "icecream scoop"
+    },
+    {
+      "id": "tool-homebrew",
+      "description": "A card image representing the Homebrew tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1526374965328-5f61d25c04b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYWNvcyUyMHRlcm1pbmFsfGVufDB8fHx8MTc2NDg2MzA3NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "macos terminal"
+    },
+    {
+      "id": "tool-fdroid",
+      "description": "A card image representing the F-Droid tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1671490290913-281a8c3ebe9e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxhbmRyb2lkJTIwcm9ib3R8ZW58MHx8fHwxNzY0NzgxMjcyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "android robot"
+    },
+    {
+      "id": "tool-flathub",
+      "description": "A card image representing the Flathub tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1535402803947-a950d0f7491f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxsaW51eCUyMHBlbmd1aW58ZW58MHx8fHwxNzY1MzkzMjYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "linux penguin"
+    },
+    {
+      "id": "tool-snap",
+      "description": "A card image representing the Snap tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1509343256512-d77a5cb3791b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhYnN0cmFjdCUyMHN0YXJ8ZW58MHx8fHwxNzY1MzkzMjYwfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract star"
+    },
+    {
+      "id": "tool-nix",
+      "description": "A card image representing the Nix tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1526374965328-5f61d25c04b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYWNvcyUyMHRlcm1pbmFsfGVufDB8fHx8MTc2NDg2MzA3NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "functional code"
+    },
+    {
+      "id": "tool-aur",
+      "description": "A card image representing the AUR tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcmNoJTIwbGludXh8ZW58MHx8fHwxNzY1NDg1MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "arch linux"
+    }
+  ]
+}
