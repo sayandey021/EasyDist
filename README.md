@@ -22,7 +22,7 @@
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/sayandey021/EasyDist/releases/latest">
-    <img src="https://img.shields.io/badge/⬇_Download_from_GitHub-v1.2.0-28a745?style=for-the-badge&logo=github&logoColor=white" alt="Download from GitHub">
+    <img src="https://github.com/nicehero/get-it-on-github/raw/main/get-it-on-github.svg" width="200" alt="Get it on GitHub">
   </a>
 </p>
 
@@ -33,10 +33,6 @@
   &nbsp;
   <a href="https://apps.microsoft.com/detail/9NZHV6S6MVQG">
     <img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Platform">
-  </a>
-  &nbsp;
-  <a href="https://github.com/sayandey021/EasyDist/stargazers">
-    <img src="https://img.shields.io/github/stars/sayandey021/EasyDist?style=flat-square&logo=github&color=yellow" alt="GitHub Stars">
   </a>
 </p>
 
