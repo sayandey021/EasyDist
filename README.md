@@ -18,7 +18,7 @@
 
 <p align="center">
   <a href="https://apps.microsoft.com/detail/9NZHV6S6MVQG">
-    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft Store">
+    <img src="public/download-microsoft-store.png" height="60" alt="Download on the Microsoft Store">
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/sayandey021/EasyDist/releases/latest">
