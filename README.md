@@ -169,9 +169,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 If you find EasyDist helpful, consider supporting the development:
 
-<a href="https://ko-fi.com/saayanstudio">
-  <img src="https://img.shields.io/badge/Ko--fi-Support%20Development-FF5E5B?style=for-the-badge&logo=ko-fi&logoColor=white" alt="Ko-fi">
-</a>
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/G2G21P82AA)
 
 ---
 
