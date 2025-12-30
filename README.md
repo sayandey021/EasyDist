@@ -22,7 +22,7 @@
   </a>
   &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/sayandey021/EasyDist/releases/latest">
-    <img src="https://github.com/nicehero/get-it-on-github/raw/main/get-it-on-github.svg" width="200" alt="Get it on GitHub">
+    <img src="public/get-it-on-github.svg" width="200" alt="Get it on GitHub">
   </a>
 </p>
 
