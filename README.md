@@ -1,9 +1,6 @@
 # EasyDist - Microsoft Store Description
 
-## Short Description 
-EasyDist is the ultimate tool for developers to package and publish applications effortlessly. Support for Windows (MSIX/NSIS), Linux (Flatpak/Snap/AUR), and more. Simplify your distribution workflow today.
-
-## Full Description
+## Description
 
 **Simplify Your Software Distribution**
 
