@@ -21,17 +21,23 @@
     <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft Store">
   </a>
   &nbsp;&nbsp;&nbsp;
-  <a href="https://github.com/sayandey021/EasyDist/releases">
-    <img src="https://img.shields.io/github/v/release/sayandey021/EasyDist?style=for-the-badge&logo=github&logoColor=white&label=Download&labelColor=24292e&color=2ea44f" alt="GitHub Releases">
+  <a href="https://github.com/sayandey021/EasyDist/releases/latest">
+    <img src="https://img.shields.io/badge/⬇_Download_from_GitHub-v1.2.0-28a745?style=for-the-badge&logo=github&logoColor=white" alt="Download from GitHub">
   </a>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/downloads/sayandey021/EasyDist/total?style=flat-square&logo=github&label=Downloads&color=blue" alt="Total Downloads">
+  <a href="https://github.com/sayandey021/EasyDist/blob/main/LICENSE">
+    <img src="https://img.shields.io/badge/License-AGPL--3.0-orange?style=flat-square" alt="License">
+  </a>
   &nbsp;
-  <img src="https://img.shields.io/github/license/sayandey021/EasyDist?style=flat-square&color=orange" alt="License">
+  <a href="https://apps.microsoft.com/detail/9NZHV6S6MVQG">
+    <img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?style=flat-square&logo=windows11&logoColor=white" alt="Platform">
+  </a>
   &nbsp;
-  <img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?style=flat-square&logo=windows&logoColor=white" alt="Platform">
+  <a href="https://github.com/sayandey021/EasyDist/stargazers">
+    <img src="https://img.shields.io/github/stars/sayandey021/EasyDist?style=flat-square&logo=github&color=yellow" alt="GitHub Stars">
+  </a>
 </p>
 
 ---
