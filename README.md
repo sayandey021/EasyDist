@@ -18,12 +18,20 @@
 
 <p align="center">
   <a href="https://apps.microsoft.com/detail/9NZHV6S6MVQG">
-    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Microsoft Store">
+    <img src="https://get.microsoft.com/images/en-us%20dark.svg" width="200" alt="Get it from Microsoft Store">
   </a>
-  &nbsp;
+  &nbsp;&nbsp;&nbsp;
   <a href="https://github.com/sayandey021/EasyDist/releases">
-    <img src="https://img.shields.io/badge/GitHub-Download-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Releases">
+    <img src="https://img.shields.io/github/v/release/sayandey021/EasyDist?style=for-the-badge&logo=github&logoColor=white&label=Download&labelColor=24292e&color=2ea44f" alt="GitHub Releases">
   </a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/github/downloads/sayandey021/EasyDist/total?style=flat-square&logo=github&label=Downloads&color=blue" alt="Total Downloads">
+  &nbsp;
+  <img src="https://img.shields.io/github/license/sayandey021/EasyDist?style=flat-square&color=orange" alt="License">
+  &nbsp;
+  <img src="https://img.shields.io/badge/Platform-Windows%2010%2F11-0078D4?style=flat-square&logo=windows&logoColor=white" alt="Platform">
 </p>
 
 ---
