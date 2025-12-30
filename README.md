@@ -9,11 +9,21 @@
 </p>
 
 <p align="center">
-  <a href="#features">Features</a> •
-  <a href="#supported-platforms">Platforms</a> •
-  <a href="#installation">Installation</a> •
-  <a href="#development">Development</a> •
-  <a href="#license">License</a>
+  <a href="#-features">Features</a> •
+  <a href="#-supported-platforms">Platforms</a> •
+  <a href="#-installation">Installation</a> •
+  <a href="#%EF%B8%8F-development">Development</a> •
+  <a href="#-license">License</a>
+</p>
+
+<p align="center">
+  <a href="https://apps.microsoft.com/detail/9NZHV6S6MVQG">
+    <img src="https://img.shields.io/badge/Microsoft%20Store-Download-0078D4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Microsoft Store">
+  </a>
+  &nbsp;
+  <a href="https://github.com/sayandey021/EasyDist/releases">
+    <img src="https://img.shields.io/badge/GitHub-Download-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Releases">
+  </a>
 </p>
 
 ---
