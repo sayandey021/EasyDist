@@ -176,5 +176,5 @@ If you find EasyDist helpful, consider supporting the development:
 ---
 
 <p align="center">
-  Made with ❤️ by <a href="https://github.com/sayandey021">Saayan Studio</a>
+  Made with ❤️ by <a href="https://github.com/sayandey021">Sayan Dey</a>
 </p>
