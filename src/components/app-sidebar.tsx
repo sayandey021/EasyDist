@@ -2,6 +2,7 @@
 'use client';
 
 import { memo, useCallback, useEffect, useState, useRef } from 'react';
+import { flushSync } from 'react-dom';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -35,6 +36,8 @@ import {
   Gamepad2,
   ShoppingBag,
   Monitor,
+  Github,
+  Gitlab,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useTheme } from 'next-themes';
@@ -203,6 +206,7 @@ const windowsItems = [
 
 const macOSItems = [
   { href: '/homebrew', logoPath: PlatformLogos['Homebrew'], label: 'Homebrew' },
+  { href: '/macports', logoPath: PlatformLogos['MacPorts'], label: 'MacPorts' },
 ];
 
 const linuxItems = [
@@ -251,6 +255,29 @@ const gamingItems = [
   { href: '/xbox', logoPath: PlatformLogos['Xbox'], label: 'Xbox' },
 ];
 
+const gitItems = [
+  { href: '/github', logoPath: PlatformLogos['GitHub'], icon: Github, label: 'GitHub' },
+  { href: '/gitlab', logoPath: PlatformLogos['GitLab'], icon: Gitlab, label: 'GitLab' },
+  { href: '/bitbucket', logoPath: PlatformLogos['Bitbucket'], icon: Code, label: 'Bitbucket' },
+  { href: '/gitea', logoPath: PlatformLogos['Gitea'], icon: Code, label: 'Gitea' },
+  { href: '/codeberg', logoPath: PlatformLogos['Codeberg'], icon: Code, label: 'Codeberg' },
+  { href: '/sourceforge', logoPath: PlatformLogos['SourceForge'], icon: Code, label: 'SourceForge' },
+  { href: '/launchpad', logoPath: PlatformLogos['Launchpad'], icon: Code, label: 'Launchpad' },
+  { href: '/huggingface', logoPath: PlatformLogos['Hugging Face'], icon: Code, label: 'Hugging Face' },
+];
+
+const languageManagers = [
+  { href: '/pip', logoPath: PlatformLogos['Pip'], icon: Code, label: 'Pip' },
+  { href: '/cargo', logoPath: PlatformLogos['Cargo'], icon: Code, label: 'Cargo' },
+  { href: '/vcpkg', logoPath: PlatformLogos['vcpkg'], icon: Code, label: 'vcpkg' },
+  { href: '/bun', logoPath: PlatformLogos['Bun'], icon: Code, label: 'Bun' },
+  { href: '/npm', logoPath: PlatformLogos['npm'], icon: Code, label: 'npm' },
+  { href: '/dockerhub', logoPath: PlatformLogos['Docker Hub'], icon: Code, label: 'Docker Hub' },
+  { href: '/nuget', logoPath: PlatformLogos['NuGet'], icon: Code, label: 'NuGet' },
+  { href: '/packagist', logoPath: PlatformLogos['Packagist'], icon: Code, label: 'Packagist' },
+  { href: '/go', logoPath: PlatformLogos['Go'], icon: Code, label: 'Go' },
+];
+
 // Theme toggle component
 const ThemeToggle = memo(function ThemeToggle() {
   const { setTheme, theme } = useTheme();
@@ -259,6 +286,49 @@ const ThemeToggle = memo(function ThemeToggle() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  const handleThemeChange = (newTheme: string, e: React.MouseEvent) => {
+    if (!document.startViewTransition) {
+      setTheme(newTheme);
+      return;
+    }
+
+    const x = e.clientX;
+    const y = e.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
+    );
+
+    const isDark = newTheme === 'dark';
+
+    const transition = document.startViewTransition(() => {
+      flushSync(() => {
+        setTheme(newTheme);
+      });
+    });
+
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ];
+
+      document.documentElement.animate(
+        {
+          clipPath: isDark ? clipPath : [...clipPath].reverse(),
+        },
+        {
+          duration: 500,
+          easing: 'ease-in-out',
+          fill: 'forwards',
+          pseudoElement: isDark
+            ? '::view-transition-new(root)'
+            : '::view-transition-old(root)',
+        }
+      );
+    });
+  };
 
   if (!mounted) {
     return (
@@ -269,23 +339,27 @@ const ThemeToggle = memo(function ThemeToggle() {
     );
   }
 
+  const isDark = theme === 'dark';
+
   return (
-    <div className="flex items-center justify-around p-2">
+    <div className="p-2">
       <Button
-        variant={theme === 'light' ? 'secondary' : 'ghost'}
-        size="icon"
-        onClick={() => setTheme('light')}
-        className="h-9 w-9 transition-colors duration-150"
+        variant="ghost"
+        onClick={(e) => handleThemeChange(isDark ? 'light' : 'dark', e)}
+        className="w-full justify-start transition-colors duration-150"
+        aria-label="Toggle theme"
       >
-        <Sun className="h-5 w-5" />
-      </Button>
-      <Button
-        variant={theme === 'dark' ? 'secondary' : 'ghost'}
-        size="icon"
-        onClick={() => setTheme('dark')}
-        className="h-9 w-9 transition-colors duration-150"
-      >
-        <Moon className="h-5 w-5" />
+        {isDark ? (
+          <>
+            <Moon className="mr-2 h-5 w-5" />
+            Dark Mode
+          </>
+        ) : (
+          <>
+            <Sun className="mr-2 h-5 w-5" />
+            Light Mode
+          </>
+        )}
       </Button>
     </div>
   );
@@ -366,6 +440,20 @@ const AppSidebar = () => {
             id="gaming"
             title="Gaming"
             items={gamingItems}
+            pathname={pathname}
+          />
+
+          <CollapsibleSection
+            id="source-control"
+            title="Source Control"
+            items={gitItems}
+            pathname={pathname}
+          />
+
+          <CollapsibleSection
+            id="language-managers"
+            title="Language Managers"
+            items={languageManagers}
             pathname={pathname}
           />
         </SidebarMenu>

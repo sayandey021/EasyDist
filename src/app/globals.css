@@ -68,12 +68,17 @@
 
 @layer base {
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground select-none;
     font-family: var(--font-inter), 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
     /* Performance optimizations */
     text-rendering: optimizeSpeed;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Allow text selection in specific interactive/content elements */
+  input, textarea, pre, code {
+    @apply select-text;
   }
 
   /* Reduce motion for users who prefer it */
@@ -239,4 +244,24 @@
     --primary: 263.4 70% 50.4%;
     --ring: 263.4 70% 50.4%;
   }
+}
+/* View Transitions for Theme Toggle */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+.dark::view-transition-old(root) {
+  z-index: 1;
+}
+.dark::view-transition-new(root) {
+  z-index: 2;
+}
+
+:root:not(.dark)::view-transition-old(root) {
+  z-index: 2;
+}
+:root:not(.dark)::view-transition-new(root) {
+  z-index: 1;
 }

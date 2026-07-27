@@ -59,6 +59,12 @@
       "description": "A card image representing the AUR tool.",
       "imageUrl": "https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxhcmNoJTIwbGludXh8ZW58MHx8fHwxNzY1NDg1MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "arch linux"
+    },
+    {
+      "id": "tool-macports",
+      "description": "A card image representing the MacPorts tool.",
+      "imageUrl": "https://images.unsplash.com/photo-1526374965328-5f61d25c04b6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxtYWNvcyUyMHRlcm1pbmFsfGVufDB8fHx8MTc2NDg2MzA3NXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "macos terminal"
     }
   ]
 }

@@ -26,6 +26,7 @@ import {
   ArrowRight,
   Check,
   Download,
+  ExternalLink,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -44,9 +45,10 @@ import {
 import { useToast } from '@/hooks/use-toast';
 
 const steps = [
-  { id: 1, name: 'Application Details' },
-  { id: 2, name: 'Build & Source' },
-  { id: 3, name: 'Generate Manifest' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Application Details' },
+  { id: 3, name: 'Build & Source' },
+  { id: 4, name: 'Generate Manifest' },
 ];
 
 const formSchema = z.object({
@@ -166,6 +168,42 @@ export function FlathubWizard() {
     switch (step) {
       case 1:
         return (
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About Flathub</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Flathub is the primary app store and build service for Flatpak, a universal packaging system for Linux. It allows developers to bundle their applications with all necessary dependencies, ensuring they run smoothly on almost any Linux distribution.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-4">
+                    <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                      <li>Universal Linux app distribution</li>
+                      <li>Sandboxed applications</li>
+                      <li>Decentralized repositories</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={nextStep}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 2:
+        return (
           <Form {...form}>
             <form onSubmit={(e) => { e.preventDefault(); onStep1Submit(); }}>
               <CardContent className="space-y-8 p-6">
@@ -263,15 +301,11 @@ export function FlathubWizard() {
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="justify-end gap-2">
-                <Button type="submit">
-                  Next <ArrowRight />
-                </Button>
-              </CardFooter>
+
             </form>
           </Form>
         );
-      case 2:
+      case 3:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -412,18 +446,11 @@ export function FlathubWizard() {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="justify-between gap-2">
-                <Button type="button" variant="ghost" onClick={prevStep}>
-                  <ArrowLeft /> Back
-                </Button>
-                <Button type="submit">
-                  Generate <ArrowRight />
-                </Button>
-              </CardFooter>
+
             </form>
           </Form>
         );
-      case 3:
+      case 4:
         const formData = form.getValues();
         const manifestContent = generateManifest(formData);
         const filename = `${formData.appId}.json`;
@@ -439,7 +466,7 @@ export function FlathubWizard() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(manifestContent, filename)}
                 >
                   <Download className="h-4 w-4" />
@@ -460,7 +487,7 @@ export function FlathubWizard() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -472,7 +499,7 @@ export function FlathubWizard() {
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                         ? 'bg-primary text-primary-foreground'
@@ -491,13 +518,28 @@ export function FlathubWizard() {
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[500px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 3 && (
-          <CardFooter className="justify-end">
+        {step > 1 && step < 4 && (
+          <CardFooter className='justify-end space-x-2'>
+            <Button variant="ghost" onClick={prevStep}>
+              <ArrowLeft /> Back
+            </Button>
+            <Button
+              onClick={() => {
+                if (step === 2) onStep1Submit();
+                else form.handleSubmit(onSubmit)();
+              }}
+            >
+              Next <ArrowRight />
+            </Button>
+          </CardFooter>
+        )}
+        {step === 4 && (
+          <CardFooter className='justify-end'>
             <Button variant="ghost" onClick={prevStep}>
               <ArrowLeft /> Back to Edit
             </Button>

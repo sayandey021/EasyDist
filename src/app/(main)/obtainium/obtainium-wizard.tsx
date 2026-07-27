@@ -26,6 +26,7 @@ import {
     Check,
     Download,
     Copy,
+    ExternalLink,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -45,9 +46,10 @@ import { useToast } from '@/hooks/use-toast';
 import { Switch } from '@/components/ui/switch';
 
 const steps = [
-    { id: 1, name: 'App Details' },
-    { id: 2, name: 'Source Configuration' },
-    { id: 3, name: 'Generate Config' },
+    { id: 1, name: 'About' },
+    { id: 2, name: 'App Details' },
+    { id: 3, name: 'Source Configuration' },
+    { id: 4, name: 'Generate Config' },
 ];
 
 const formSchema = z.object({
@@ -127,7 +129,7 @@ export function ObtainiumWizard() {
             packageName: data.id,
             packageVersion: 'latest',
         });
-        nextStep();
+        setStep(4);
     };
 
     const generateConfig = (data: FormData) => {
@@ -176,6 +178,42 @@ export function ObtainiumWizard() {
     const renderStepContent = () => {
         switch (step) {
             case 1:
+                return (
+                    <>
+                        <CardContent className="space-y-6 p-6">
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold">About Obtainium</h3>
+                                <p className="text-muted-foreground leading-relaxed">
+                                    Obtainium allows you to install and update Android apps directly from their releases pages (e.g. GitHub, GitLab, F-Droid, IzzyOnDroid) without needing a centralized app store.
+                                </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div className="rounded-lg bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 p-4">
+                                        <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2">Key Features</h4>
+                                        <ul className="list-disc list-inside text-sm text-orange-600 dark:text-orange-400 space-y-1">
+                                            <li>Track direct sources</li>
+                                            <li>No centralized store</li>
+                                            <li>Background updates</li>
+                                        </ul>
+                                    </div>
+                                    <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                        <CardFooter className="justify-end gap-2">
+                            <Button onClick={nextStep}>
+                                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </>
+                );
+            case 2:
                 return (
                     <Form {...form}>
                         <form onSubmit={(e) => { e.preventDefault(); onStep1Submit(); }}>
@@ -274,14 +312,17 @@ export function ObtainiumWizard() {
                                 </div>
                             </CardContent>
                             <CardFooter className="justify-end gap-2">
+                                <Button type="button" variant="ghost" onClick={prevStep}>
+                                    <ArrowLeft /> Back
+                                </Button>
                                 <Button type="submit">
-                                    Next <ArrowRight />
+                                    Next <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </CardFooter>
                         </form>
                     </Form>
                 );
-            case 2:
+            case 3:
                 return (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -403,13 +444,13 @@ export function ObtainiumWizard() {
                                     <ArrowLeft /> Back
                                 </Button>
                                 <Button type="submit">
-                                    Generate <ArrowRight />
+                                    Generate <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </CardFooter>
                         </form>
                     </Form>
                 );
-            case 3:
+            case 4:
                 const formData = form.getValues();
                 const configContent = generateConfig(formData);
                 const obtainiumUrl = generateObtainiumUrl(formData);
@@ -439,7 +480,7 @@ export function ObtainiumWizard() {
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-2 top-2 h-7 w-7"
+                                    className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                                     onClick={() => downloadFile(configContent, filename)}
                                 >
                                     <Download className="h-4 w-4" />
@@ -460,7 +501,7 @@ export function ObtainiumWizard() {
     };
 
     return (
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto w-full max-w-none">
             <Card>
                 <CardHeader>
                     <div className="flex items-center justify-between">
@@ -472,7 +513,7 @@ export function ObtainiumWizard() {
                         </div>
                         <div className="flex items-center gap-2">
                             {steps.map((s, i) => (
-                                <div key={s.id} className="flex items-center gap-2">
+                                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                                     <div
                                         className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                                             ? 'bg-primary text-primary-foreground'
@@ -491,12 +532,12 @@ export function ObtainiumWizard() {
                         </div>
                     </div>
                 </CardHeader>
-                <div className="min-h-[500px]">
+                <div className="w-full">
                     <div key={step} className="animate-in fade-in duration-300">
                         {renderStepContent()}
                     </div>
                 </div>
-                {step === 3 && (
+                {step === 4 && (
                     <CardFooter className="justify-end">
                         <Button variant="ghost" onClick={prevStep}>
                             <ArrowLeft /> Back to Edit

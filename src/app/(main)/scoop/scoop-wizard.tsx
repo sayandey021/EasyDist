@@ -28,6 +28,7 @@ import {
   Download,
   FileUp,
   Loader,
+  ExternalLink,
 } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,9 +39,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { saveHistoryItem } from '@/lib/history';
 
 const steps = [
-  { id: 1, name: 'Upload Installer' },
-  { id: 2, name: 'Manifest Details' },
-  { id: 3, name: 'Generate Manifest' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Upload Installer' },
+  { id: 3, name: 'Manifest Details' },
+  { id: 4, name: 'Generate Manifest' },
 ];
 
 const formSchema = z.object({
@@ -98,7 +100,7 @@ export function ScoopWizard() {
     startHashing(async () => {
       const hash = await calculateSHA256(file);
       form.setValue('hash', hash);
-      setStep(2);
+      setStep(3);
     });
   };
   
@@ -173,30 +175,73 @@ export function ScoopWizard() {
     switch (step) {
       case 1:
         return (
-          <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
-            <FileUp className="h-16 w-16 text-muted-foreground" />
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold">Upload Your Installer</h3>
-              <p className="text-muted-foreground">
-                Select your application's installer file (.exe, .msi, .zip) to
-                calculate its SHA256 hash and infer the app name.
-              </p>
-            </div>
-            <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input
-                id="installerFile"
-                type="file"
-                onChange={handleFileChange}
-                disabled={isHashing}
-                className="flex-grow"
-              />
-              <Button onClick={handleFileUpload} disabled={!file || isHashing}>
-                {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About Scoop</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Scoop is a command-line installer for Windows that focuses on open-source, developer tools, and portable applications. It installs programs with a minimal amount of friction, avoiding UAC popups, GUI wizards, and path pollution.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 p-4">
+                    <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-orange-600 dark:text-orange-400 space-y-1">
+                      <li>No UAC popups (installs to user dir)</li>
+                      <li>Simple JSON-based manifests</li>
+                      <li>Great for developer tools</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={nextStep}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </div>
-          </CardContent>
+            </CardFooter>
+          </>
         );
       case 2:
+        return (
+          <>
+            <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
+              <FileUp className="h-16 w-16 text-muted-foreground" />
+              <div className="space-y-1">
+                <h3 className="text-xl font-semibold">Upload Your Installer</h3>
+                <p className="text-muted-foreground">
+                  Select your application's installer file (.exe, .msi, .zip) to
+                  calculate its SHA256 hash and infer the app name.
+                </p>
+              </div>
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input
+                  id="installerFile"
+                  type="file"
+                  onChange={handleFileChange}
+                  disabled={isHashing}
+                  className="flex-grow"
+                />
+                <Button onClick={handleFileUpload} disabled={!file || isHashing}>
+                  {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-start">
+              <Button type="button" variant="ghost" onClick={prevStep}>
+                <ArrowLeft /> Back
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 3:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -308,7 +353,7 @@ export function ScoopWizard() {
             </form>
           </Form>
         );
-      case 3:
+      case 4:
         const formData = form.getValues();
         return (
           <CardContent className="space-y-6 p-6">
@@ -322,7 +367,7 @@ export function ScoopWizard() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={downloadJson}
                 >
                   <Download className="h-4 w-4" />
@@ -341,7 +386,7 @@ export function ScoopWizard() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
        <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -353,7 +398,7 @@ export function ScoopWizard() {
             </div>
              <div className="flex items-center gap-2">
                 {steps.map((s, i) => (
-                    <div key={s.id} className="flex items-center gap-2">
+                    <div key={s.id} className="flex items-center gap-2" title={s.name}>
                         <div
                             className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
                             step > s.id
@@ -371,12 +416,12 @@ export function ScoopWizard() {
              </div>
           </div>
         </CardHeader>
-        <div className="min-h-[400px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 3 && (
+        {step === 4 && (
             <CardFooter className='justify-end'>
                 <Button variant="ghost" onClick={prevStep}>
                   <ArrowLeft /> Back to Edit

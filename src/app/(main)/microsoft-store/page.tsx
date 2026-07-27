@@ -9,31 +9,84 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, DollarSign, CheckCircle2 } from 'lucide-react';
-import Link from 'next/link';
+import { ExternalLink, Terminal, Globe, ShieldCheck, FileJson, Server, Code, Box, CheckCircle2, DollarSign } from 'lucide-react';
+import { PlatformLogo } from '@/components/platform-icons';
 
 export default function MicrosoftStorePage() {
     return (
-        <div className="mx-auto w-full max-w-4xl space-y-6">
-            <Card>
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <CardTitle className="text-2xl">Microsoft Store</CardTitle>
-                            <CardDescription>
-                                Publish apps and games on the Windows Microsoft Store
-                            </CardDescription>
+        <div className="flex flex-col gap-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-in-out">
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                    <PlatformLogo platformName="Microsoft Store" className="h-10 w-10" />
+                    <h1 className="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-teal-500 to-cyan-500">
+                        Microsoft Store
+                    </h1>
+                </div>
+                <p className="text-muted-foreground text-lg max-w-2xl">
+                    Publish apps and games on the Windows Microsoft Store
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="md:col-span-2 border-none bg-blue-500/5 hover:bg-blue-500/10 transition-colors duration-300">
+                    <CardHeader>
+                        <CardTitle className="text-blue-500">Overview</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            The official digital storefront for Windows applications, games, movies, and hardware. It ensures applications are verified for security and provides a unified update mechanism.
+                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            The official digital storefront for Windows applications, games, movies, and hardware. It ensures applications are verified for security and provides a unified update mechanism.
+                        </p>
+                        
+                        
+                        
+                        <div className="flex flex-wrap gap-2">
+                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-500">Free (Individual)</Badge>
+                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-500">$99 (Company)</Badge>
+                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-500">Software</Badge>
+                            <Badge variant="secondary" className="bg-blue-500/10 text-blue-500">Games</Badge>
                         </div>
-                        <div className="flex gap-2 flex-wrap">
-                            <Badge variant="default" className="bg-green-600">Free (Individual)</Badge>
-                            <Badge variant="secondary">$99 (Company)</Badge>
-                            <Badge>Software</Badge>
-                            <Badge>Games</Badge>
-                        </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                    <div className="rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 p-4">
+                    </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Globe className="h-5 w-5 text-blue-500 group-hover:scale-110 transition-transform" />
+                            Resources
+                        </CardTitle>
+                        <CardDescription>Useful links</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-500 group/btn" asChild>
+                            <a href="https://partner.microsoft.com/dashboard" target="_blank" rel="noreferrer">
+                                Partner Center Dashboard
+                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                            </a>
+                        </Button>
+                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-500 group/btn" asChild>
+                            <a href="https://learn.microsoft.com/en-us/windows/apps/publish/" target="_blank" rel="noreferrer">
+                                Documentation
+                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                            </a>
+                        </Button>
+                        
+                    </CardContent>
+                </Card>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <Card className="border-border/50 hover:border-blue-500/50 transition-colors duration-300">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Box className="h-5 w-5 text-blue-500" />
+                            Features & Usage
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="rounded-lg bg-green-50 dark:bg-green-950 border border-green-200 dark:border-green-800 p-4">
                         <div className="flex items-center gap-2 mb-2">
                             <CheckCircle2 className="h-5 w-5 text-green-600" />
                             <h3 className="font-semibold text-green-700 dark:text-green-300">Free for Individuals!</h3>
@@ -114,23 +167,9 @@ export default function MicrosoftStorePage() {
                             </li>
                         </ul>
                     </div>
-
-                    <div className="flex gap-4">
-                        <Button asChild>
-                            <Link href="https://partner.microsoft.com/dashboard" target="_blank">
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Partner Center Dashboard
-                            </Link>
-                        </Button>
-                        <Button variant="outline" asChild>
-                            <Link href="https://learn.microsoft.com/en-us/windows/apps/publish/" target="_blank">
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Documentation
-                            </Link>
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 }

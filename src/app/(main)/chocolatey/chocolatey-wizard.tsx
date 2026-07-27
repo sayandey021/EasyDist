@@ -28,6 +28,7 @@ import {
   Download,
   FileUp,
   Loader,
+  ExternalLink,
 } from 'lucide-react';
 import { useState, useTransition, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -41,9 +42,10 @@ import { settingsKey } from '@/lib/settings';
 import { saveHistoryItem } from '@/lib/history';
 
 const steps = [
-  { id: 1, name: 'Upload Installer' },
-  { id: 2, name: 'Package Details' },
-  { id: 3, name: 'Generate Files' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Upload Installer' },
+  { id: 3, name: 'Package Details' },
+  { id: 4, name: 'Generate Files' },
 ];
 
 const formSchema = z.object({
@@ -119,7 +121,7 @@ export function ChocolateyWizard() {
     startHashing(async () => {
       const hash = await calculateSHA256(file);
       form.setValue('installerSha256', hash);
-      setStep(2);
+      setStep(3);
     });
   };
 
@@ -211,30 +213,73 @@ Install-ChocolateyPackage @packageArgs
     switch (step) {
       case 1:
         return (
-          <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
-            <FileUp className="h-16 w-16 text-muted-foreground" />
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold">Upload Your Installer</h3>
-              <p className="text-muted-foreground">
-                Select your application's installer file (.exe, .msi) to
-                calculate its SHA256 hash.
-              </p>
-            </div>
-            <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input
-                id="installerFile"
-                type="file"
-                onChange={handleFileChange}
-                disabled={isHashing}
-                className="flex-grow"
-              />
-              <Button onClick={handleFileUpload} disabled={!file || isHashing}>
-                {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About Chocolatey</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Chocolatey is a machine-level, software package manager for Windows. It uses the NuGet packaging infrastructure and Windows PowerShell to simplify the process of downloading and installing software, bringing the concepts of true package management to Windows.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-indigo-50 dark:bg-indigo-950 border border-indigo-200 dark:border-indigo-800 p-4">
+                    <h4 className="font-semibold text-indigo-700 dark:text-indigo-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-indigo-600 dark:text-indigo-400 space-y-1">
+                      <li>Enterprise ready package management</li>
+                      <li>Based on NuGet and PowerShell</li>
+                      <li>Decentralized package creation</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={nextStep}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </div>
-          </CardContent>
+            </CardFooter>
+          </>
         );
       case 2:
+        return (
+          <>
+            <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
+              <FileUp className="h-16 w-16 text-muted-foreground" />
+              <div className="space-y-1">
+                <h3 className="text-xl font-semibold">Upload Your Installer</h3>
+                <p className="text-muted-foreground">
+                  Select your application's installer file (.exe, .msi) to
+                  calculate its SHA256 hash.
+                </p>
+              </div>
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input
+                  id="installerFile"
+                  type="file"
+                  onChange={handleFileChange}
+                  disabled={isHashing}
+                  className="flex-grow"
+                />
+                <Button onClick={handleFileUpload} disabled={!file || isHashing}>
+                  {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-start">
+              <Button type="button" variant="ghost" onClick={prevStep}>
+                <ArrowLeft /> Back
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 3:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -441,7 +486,7 @@ Install-ChocolateyPackage @packageArgs
             </form>
           </Form>
         );
-      case 3:
+      case 4:
         const formData = form.getValues();
         const nuspecContent = generateNuspec(formData);
         const installScriptContent = generateChocolateyInstall(formData);
@@ -458,7 +503,7 @@ Install-ChocolateyPackage @packageArgs
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(nuspecContent, `${formData.packageId}.nuspec`)}
                 >
                   <Download className="h-4 w-4" />
@@ -475,7 +520,7 @@ Install-ChocolateyPackage @packageArgs
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(installScriptContent, 'chocolateyInstall.ps1')}
                 >
                   <Download className="h-4 w-4" />
@@ -506,7 +551,7 @@ Install-ChocolateyPackage @packageArgs
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -518,7 +563,7 @@ Install-ChocolateyPackage @packageArgs
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                         ? 'bg-primary text-primary-foreground'
@@ -537,12 +582,12 @@ Install-ChocolateyPackage @packageArgs
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[400px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 3 && (
+        {step === 4 && (
           <CardFooter className="justify-end">
             <Button variant="ghost" onClick={prevStep}>
               <ArrowLeft /> Back to Edit

@@ -26,6 +26,7 @@ import {
   ArrowRight,
   Check,
   Download,
+  ExternalLink,
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,8 +39,9 @@ import { useSearchParams } from 'next/navigation';
 import { Badge } from '@/components/ui/badge';
 
 const steps = [
-  { id: 1, name: 'Package Details' },
-  { id: 2, name: 'Generate PKGBUILD' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Package Details' },
+  { id: 3, name: 'Generate PKGBUILD' },
 ];
 
 const formSchema = z.object({
@@ -113,7 +115,7 @@ export function AurWizard() {
       packageVersion: `${data.pkgver}-${data.pkgrel}`,
       formData: data, // Save complete form data for future updates
     });
-    nextStep();
+    setStep(3);
   };
 
   const generatePkgbuild = (data: FormData) => {
@@ -156,6 +158,42 @@ package() {
   const renderStepContent = () => {
     switch (step) {
       case 1:
+        return (
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About AUR</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  The Arch User Repository (AUR) is a community-driven repository for Arch Linux users. It contains package descriptions (PKGBUILDs) that allow you to compile a package from source with makepkg and then install it via pacman.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-4">
+                    <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                      <li>Community-maintained</li>
+                      <li>Bash-based PKGBUILDs</li>
+                      <li>Automates building from source</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={() => setStep(2)}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 2:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -347,15 +385,18 @@ package() {
                   />
                 </div>
               </CardContent>
-              <CardFooter className="justify-end gap-2">
+              <CardFooter className="justify-between gap-2">
+                <Button type="button" variant="ghost" onClick={prevStep}>
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                </Button>
                 <Button type="submit">
-                  Generate <ArrowRight />
+                  Generate <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
             </form>
           </Form>
         );
-      case 2: {
+      case 3: {
         const formData = form.getValues();
         const pkgbuildContent = generatePkgbuild(formData);
         const filename = `PKGBUILD`;
@@ -371,7 +412,7 @@ package() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(pkgbuildContent, filename)}
                 >
                   <Download className="h-4 w-4" />
@@ -395,7 +436,7 @@ package() {
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -414,7 +455,7 @@ package() {
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                       ? 'bg-primary text-primary-foreground'
@@ -433,14 +474,14 @@ package() {
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[500px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 2 && (
-          <CardFooter className="justify-end">
-            <Button variant="ghost" onClick={prevStep}>
+        {step === 3 && (
+          <CardFooter className='justify-end'>
+            <Button variant="ghost" onClick={() => setStep(2)}>
               <ArrowLeft /> Back to Edit
             </Button>
           </CardFooter>

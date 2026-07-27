@@ -25,6 +25,7 @@ import {
     ArrowRight,
     Check,
     Download,
+    ExternalLink,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -43,9 +44,10 @@ import {
 import { useToast } from '@/hooks/use-toast';
 
 const steps = [
-    { id: 1, name: 'Package Details' },
-    { id: 2, name: 'Build Configuration' },
-    { id: 3, name: 'Generate Spec File' },
+    { id: 1, name: 'About' },
+    { id: 2, name: 'Package Details' },
+    { id: 3, name: 'Build Configuration' },
+    { id: 4, name: 'Generate Spec File' },
 ];
 
 const formSchema = z.object({
@@ -169,6 +171,42 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
         switch (step) {
             case 1:
                 return (
+                    <>
+                        <CardContent className="space-y-6 p-6">
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold">About Copr</h3>
+                                <p className="text-muted-foreground leading-relaxed">
+                                    Copr is an easy-to-use automatic build system providing a package repository as its output. It is hosted by the Fedora Project but you can build packages for Fedora, EPEL, Mageia, and openSUSE.
+                                </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div className="rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-4">
+                                        <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Key Features</h4>
+                                        <ul className="list-disc list-inside text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                                            <li>Automatic builds from source</li>
+                                            <li>Hosted Yum/DNF repositories</li>
+                                            <li>Cross-distribution support</li>
+                                        </ul>
+                                    </div>
+                                    <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                        <CardFooter className="justify-end gap-2">
+                            <Button onClick={nextStep}>
+                                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </>
+                );
+            case 2:
+                return (
                     <Form {...form}>
                         <form onSubmit={(e) => { e.preventDefault(); onStep1Submit(); }}>
                             <CardContent className="space-y-8 p-6">
@@ -276,15 +314,11 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
                                     />
                                 </div>
                             </CardContent>
-                            <CardFooter className="justify-end gap-2">
-                                <Button type="submit">
-                                    Next <ArrowRight />
-                                </Button>
-                            </CardFooter>
+
                         </form>
                     </Form>
                 );
-            case 2:
+            case 3:
                 return (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -409,18 +443,11 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
                                     </div>
                                 </div>
                             </CardContent>
-                            <CardFooter className="justify-between gap-2">
-                                <Button type="button" variant="ghost" onClick={prevStep}>
-                                    <ArrowLeft /> Back
-                                </Button>
-                                <Button type="submit">
-                                    Generate <ArrowRight />
-                                </Button>
-                            </CardFooter>
+
                         </form>
                     </Form>
                 );
-            case 3:
+            case 4:
                 const formData = form.getValues();
                 const specContent = generateSpecFile(formData);
                 const filename = `${formData.name}.spec`;
@@ -436,7 +463,7 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-2 top-2 h-7 w-7"
+                                    className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                                     onClick={() => downloadFile(specContent, filename)}
                                 >
                                     <Download className="h-4 w-4" />
@@ -458,7 +485,7 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
     };
 
     return (
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto w-full max-w-none">
             <Card>
                 <CardHeader>
                     <div className="flex items-center justify-between">
@@ -470,7 +497,7 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
                         </div>
                         <div className="flex items-center gap-2">
                             {steps.map((s, i) => (
-                                <div key={s.id} className="flex items-center gap-2">
+                                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                                     <div
                                         className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                                             ? 'bg-primary text-primary-foreground'
@@ -489,13 +516,27 @@ ${data.files || '%license LICENSE\n%{_bindir}/%{name}'}
                         </div>
                     </div>
                 </CardHeader>
-                <div className="min-h-[500px]">
+                <div className="w-full">
                     <div key={step} className="animate-in fade-in duration-300">
                         {renderStepContent()}
                     </div>
-                </div>
-                {step === 3 && (
-                    <CardFooter className="justify-end">
+                </div>                {step > 1 && step < 4 && (
+                    <CardFooter className='justify-between gap-2'>
+                        <Button type="button" variant="ghost" onClick={prevStep}>
+                            <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                if (step === 2) onStep1Submit();
+                                else form.handleSubmit(onSubmit)();
+                            }}
+                        >
+                            Next <ArrowRight />
+                        </Button>
+                    </CardFooter>
+                )}
+                {step === 4 && (
+                    <CardFooter className='justify-end'>
                         <Button variant="ghost" onClick={prevStep}>
                             <ArrowLeft /> Back to Edit
                         </Button>

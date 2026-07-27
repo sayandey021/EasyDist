@@ -45,6 +45,11 @@ const typeToPath: Record<HistoryItem['type'], string> = {
   Snap: '/snap',
   Nix: '/nix',
   AUR: '/aur',
+  MacPorts: '/macports',
+  Copr: '/copr',
+  IzzyOnDroid: '/izzyondroid',
+  Obtainium: '/obtainium',
+  Go: '/go',
 };
 
 export default function HistoryPage() {
@@ -86,6 +91,7 @@ export default function HistoryPage() {
       case 'scoop':
         return 'outline';
       case 'homebrew':
+      case 'macports':
         return 'default';
       case 'f-droid':
         return 'destructive';

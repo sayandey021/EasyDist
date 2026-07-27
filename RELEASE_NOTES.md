@@ -1,3 +1,98 @@
+# EasyDist v1.4.2 Release Notes
+
+**Release Date:** July 13, 2026
+
+We are excited to announce the release of **EasyDist v1.4.2**! This quick follow-up update introduces Launchpad to our growing list of platforms and optimizes the desktop application bounds.
+
+## 🚀 New Features
+
+### Launchpad Integration
+*   Added **Launchpad** (Canonical's software collaboration platform) to the Source Control sections of the dashboard and sidebar.
+*   Included a dedicated informational page detailing its features, pricing, and how to utilize Personal Package Archives (PPAs).
+*   Added an official, high-quality Launchpad logo to the UI.
+
+## 🎨 UI & UX Improvements
+*   **Optimal Window Sizing:** Re-adjusted the minimum window bounds to `1200x800`. This completely removes the "lowest possible ratio" constraints from the previous patch, ensuring the application always remains in its intended, expansive "App Store" layout mode without breaking.
+
+---
+
+
+# EasyDist v1.4.1 Release Notes
+**Release Date:** July 13, 2026
+
+We are excited to announce the release of **EasyDist v1.4.1**! This minor update adds support for Go Modules, updates visual assets, and includes several UI layout and type-safety improvements.
+
+## 🚀 New Features
+
+### Go Modules Support
+*   Added an interactive 4-step configuration wizard for managing `go.mod` files and Go module distribution.
+*   Go has been successfully integrated into the Language Package Managers section on the dashboard and the sidebar.
+
+## 🎨 UI & Design Improvements
+*   **Logo Updates:** Upgraded the icons for `Go`, `Packagist`, and `vcpkg` to brand new, high-quality images.
+*   **Predictable Dashboard Layout:** Restructured the dashboard's top controls to prevent the Search and Filter bars from jumping to the far right on wide/fullscreen monitors. The tabs now scroll horizontally while keeping everything perfectly left-aligned.
+
+## 🐛 Bug Fixes & Stability
+*   **Type Safety:** Fixed a TypeScript typing issue where newer platforms (`Copr`, `IzzyOnDroid`, `Obtainium`, `Go`) were missing from the `HistoryItem` type union, restoring robust history tracking for these packages.
+*   **Window Bounds:** Enforced a minimum window ratio/size constraint for the desktop application to prevent UI breakage on extreme downscaling.
+
+---
+
+
+# EasyDist v1.4.0 Release Notes
+**Release Date:** July 13, 2026
+
+We are excited to announce the release of **EasyDist v1.4.0**! This update focuses on giving the app a premium, native desktop feel with an expansive layout and refined interactions.
+
+## 🚀 New Features
+
+### Expanded Platform Support
+*   **MacPorts:** Added MacPorts as a new open-source macOS package manager, complete with a 4-step interactive configuration wizard for generating Portfiles.
+
+### Sidebar Categories
+*   **Source Control:** New sidebar section added containing GitHub, GitLab, Bitbucket, Gitea, Codeberg, SourceForge, and Hugging Face.
+*   **Language Managers:** New sidebar section added containing Pip, Cargo, vcpkg, Bun, npm, Docker Hub, NuGet, and Packagist.
+
+### App Store Expansive Layout
+*   Increased the maximum width of all platform pages to create a wider, commercial "App Store" experience.
+*   Removed hardcoded width constraints on wizard cards to allow them to scale beautifully on modern, wide monitors.
+
+### Native Desktop Experience
+*   Disabled global text selection across the app interface to prevent accidental highlighting, making it feel like a true native application.
+*   Retained text selection capabilities where it matters: inputs, text areas, and generated code blocks.
+
+## 🐛 Bug Fixes
+*   Fixed an issue where the "Download" button was overlapping with the built-in "Copy" button in CodeBlock components.
+*   Fixed a missing import error (`ExternalLink`) that caused the Obtainium page to crash.
+
+---
+
+
+# EasyDist v1.3.0 Release Notes
+
+**Release Date:** July 13, 2026
+
+We are excited to announce the release of **EasyDist v1.3.0**! This major update brings a completely standardized 4-step interactive wizard experience across all open-source package managers.
+
+## 🚀 New Features
+
+### Standardized 4-Step Wizards
+*   Unified the wizard experience across all 13 open-source platforms (WinGet, Scoop, Chocolatey, Homebrew, MacPorts, F-Droid, Flatpak, Snap, Nix, AUR, Copr, IzzyOnDroid, Obtainium).
+*   Introduced a standard 4-step flow: 
+    1. **About**: Overview and helpful resources.
+    2. **Upload Installer**: Calculate file hashes directly in the browser.
+    3. **App Details**: Input package metadata.
+    4. **Generate Config**: Get your manifest ready for distribution.
+
+### Enhanced Configuration Generation
+*   Added dedicated **Download** buttons directly inside all generated code blocks, allowing you to instantly save your generated manifests (`.yaml`, `.json`, etc.) to your local machine.
+
+## 🎨 Improvements
+*   Added explicit "Back" buttons to the Upload Installer / APK steps across all wizards to ensure users can easily navigate back to the About section.
+
+---
+
+
 # EasyDist v1.2.0 Release Notes
 
 **Release Date:** December 29, 2025

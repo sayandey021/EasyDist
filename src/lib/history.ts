@@ -3,7 +3,7 @@ export const historyKey = 'distro-accel-history';
 
 export type HistoryItem = {
   id: string;
-  type: 'WinGet' | 'Chocolatey' | 'Scoop' | 'F-Droid' | 'Homebrew' | 'Flathub' | 'Snap' | 'Nix' | 'AUR';
+  type: 'WinGet' | 'Chocolatey' | 'Scoop' | 'F-Droid' | 'Homebrew' | 'Flathub' | 'Snap' | 'Nix' | 'AUR' | 'MacPorts' | 'Copr' | 'IzzyOnDroid' | 'Obtainium' | 'Go';
   packageName: string;
   packageVersion: string;
   createdAt: string;

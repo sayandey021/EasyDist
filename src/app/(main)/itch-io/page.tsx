@@ -9,31 +9,84 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { ExternalLink, DollarSign, CheckCircle2, Heart } from 'lucide-react';
-import Link from 'next/link';
+import { ExternalLink, Terminal, Globe, ShieldCheck, FileJson, Server, Code, Box, Heart, CheckCircle2 } from 'lucide-react';
+import { PlatformLogo } from '@/components/platform-icons';
 
 export default function ItchIoPage() {
     return (
-        <div className="mx-auto w-full max-w-4xl space-y-6">
-            <Card>
-                <CardHeader>
-                    <div className="flex items-center justify-between">
-                        <div>
-                            <CardTitle className="text-2xl">Itch.io</CardTitle>
-                            <CardDescription>
-                                Indie-friendly platform for games, tools, and digital content
-                            </CardDescription>
+        <div className="flex flex-col gap-6 w-full animate-in fade-in slide-in-from-bottom-4 duration-300 ease-in-out">
+            <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3">
+                    <PlatformLogo platformName="Itch.io" className="h-10 w-10" />
+                    <h1 className="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-red-500 to-rose-500">
+                        Itch.io
+                    </h1>
+                </div>
+                <p className="text-muted-foreground text-lg max-w-2xl">
+                    Indie-friendly platform for games, tools, and digital content
+                </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <Card className="md:col-span-2 border-none bg-red-500/5 hover:bg-red-500/10 transition-colors duration-300">
+                    <CardHeader>
+                        <CardTitle className="text-red-500">Overview</CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            An open marketplace for independent digital creators with a focus on indie video games. It gives creators complete control over pricing, distribution, and the design of their store pages.
+                        </p>
+                        <p className="text-sm text-muted-foreground leading-relaxed">
+                            An open marketplace for independent digital creators with a focus on indie video games. It gives creators complete control over pricing, distribution, and the design of their store pages.
+                        </p>
+                        
+                        
+                        
+                        <div className="flex flex-wrap gap-2">
+                            <Badge variant="secondary" className="bg-red-500/10 text-red-500">Free</Badge>
+                            <Badge variant="secondary" className="bg-red-500/10 text-red-500">Pay what you want</Badge>
+                            <Badge variant="secondary" className="bg-red-500/10 text-red-500">Games</Badge>
+                            <Badge variant="secondary" className="bg-red-500/10 text-red-500">Software</Badge>
                         </div>
-                        <div className="flex gap-2">
-                            <Badge variant="secondary">Free</Badge>
-                            <Badge variant="outline">Pay what you want</Badge>
-                            <Badge>Games</Badge>
-                            <Badge>Software</Badge>
-                        </div>
-                    </div>
-                </CardHeader>
-                <CardContent className="space-y-8">
-                    <div className="rounded-lg bg-muted/50 p-4">
+                    </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-md hover:shadow-lg transition-shadow duration-300 group">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Globe className="h-5 w-5 text-red-500 group-hover:scale-110 transition-transform" />
+                            Resources
+                        </CardTitle>
+                        <CardDescription>Useful links</CardDescription>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                        <Button variant="outline" className="w-full justify-between hover:border-red-500 hover:text-red-500 group/btn" asChild>
+                            <a href="https://itch.io/dashboard" target="_blank" rel="noreferrer">
+                                Itch.io Dashboard
+                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                            </a>
+                        </Button>
+                        <Button variant="outline" className="w-full justify-between hover:border-red-500 hover:text-red-500 group/btn" asChild>
+                            <a href="https://itch.io/docs/butler/" target="_blank" rel="noreferrer">
+                                Butler CLI Docs
+                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                            </a>
+                        </Button>
+                        
+                    </CardContent>
+                </Card>
+            </div>
+
+            <div className="grid grid-cols-1 gap-6">
+                <Card className="border-border/50 hover:border-red-500/50 transition-colors duration-300">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                            <Box className="h-5 w-5 text-red-500" />
+                            Features & Usage
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className="space-y-6">
+                        <div className="rounded-lg bg-muted/50 p-4">
                         <div className="flex items-center gap-2 mb-2">
                             <Heart className="h-5 w-5 text-pink-500" />
                             <h3 className="font-semibold">Indie-Friendly Pricing</h3>
@@ -115,23 +168,9 @@ export default function ItchIoPage() {
                             </li>
                         </ul>
                     </div>
-
-                    <div className="flex gap-4">
-                        <Button asChild>
-                            <Link href="https://itch.io/dashboard" target="_blank">
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Itch.io Dashboard
-                            </Link>
-                        </Button>
-                        <Button variant="outline" asChild>
-                            <Link href="https://itch.io/docs/butler/" target="_blank">
-                                <ExternalLink className="mr-2 h-4 w-4" />
-                                Butler CLI Docs
-                            </Link>
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+                    </CardContent>
+                </Card>
+            </div>
         </div>
     );
 }

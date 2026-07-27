@@ -26,8 +26,9 @@ import {
   ArrowRight,
   Check,
   Download,
-  FileUp,
   Loader,
+  ExternalLink,
+  FileUp,
 } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
@@ -38,9 +39,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { saveHistoryItem } from '@/lib/history';
 
 const steps = [
-  { id: 1, name: 'Upload App' },
-  { id: 2, name: 'Cask Details' },
-  { id: 3, name: 'Generate Cask' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Upload App' },
+  { id: 3, name: 'Cask Details' },
+  { id: 4, name: 'Generate Cask' },
 ];
 
 const formSchema = z.object({
@@ -103,7 +105,7 @@ export function HomebrewWizard() {
     startHashing(async () => {
       const hash = await calculateSHA256(file);
       form.setValue('sha256', hash);
-      setStep(2);
+      setStep(3);
     });
   };
 
@@ -181,31 +183,74 @@ end
     switch (step) {
       case 1:
         return (
-          <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
-            <FileUp className="h-16 w-16 text-muted-foreground" />
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold">Upload Your Application</h3>
-              <p className="text-muted-foreground">
-                Select your application's installer file (.dmg, .zip) to
-                calculate its SHA256 hash.
-              </p>
-            </div>
-            <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input
-                id="installerFile"
-                type="file"
-                accept=".dmg,.zip"
-                onChange={handleFileChange}
-                disabled={isHashing}
-                className="flex-grow"
-              />
-              <Button onClick={handleFileUpload} disabled={!file || isHashing}>
-                {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About Homebrew</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Homebrew is the missing package manager for macOS (or Linux). It installs the stuff you need that Apple didn't. Homebrew Cask extends Homebrew to allow installation of large binary files, such as GUI applications like Google Chrome and Discord.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 p-4">
+                    <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-orange-600 dark:text-orange-400 space-y-1">
+                      <li>Installs apps via command line</li>
+                      <li>Ruby-based DSL for Casks</li>
+                      <li>Massive community repository</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={nextStep}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </div>
-          </CardContent>
+            </CardFooter>
+          </>
         );
       case 2:
+        return (
+          <>
+            <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
+              <FileUp className="h-16 w-16 text-muted-foreground" />
+              <div className="space-y-1">
+                <h3 className="text-xl font-semibold">Upload Your Application</h3>
+                <p className="text-muted-foreground">
+                  Select your application's installer file (.dmg, .zip) to
+                  calculate its SHA256 hash.
+                </p>
+              </div>
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input
+                  id="installerFile"
+                  type="file"
+                  accept=".dmg,.zip"
+                  onChange={handleFileChange}
+                  disabled={isHashing}
+                  className="flex-grow"
+                />
+                <Button onClick={handleFileUpload} disabled={!file || isHashing}>
+                  {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-start">
+              <Button type="button" variant="ghost" onClick={prevStep}>
+                <ArrowLeft /> Back
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 3:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -366,7 +411,7 @@ end
             </form>
           </Form>
         );
-      case 3:
+      case 4:
         const formData = form.getValues();
         const caskContent = generateCask(formData);
         const filename = `${formData.caskName}.rb`;
@@ -382,7 +427,7 @@ end
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(caskContent, filename)}
                 >
                   <Download className="h-4 w-4" />
@@ -404,7 +449,7 @@ end
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -416,7 +461,7 @@ end
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${
                       step > s.id
@@ -436,13 +481,13 @@ end
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[400px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 3 && (
-          <CardFooter className="justify-end">
+        {step === 4 && (
+          <CardFooter className='justify-end'>
             <Button variant="ghost" onClick={prevStep}>
               <ArrowLeft /> Back to Edit
             </Button>

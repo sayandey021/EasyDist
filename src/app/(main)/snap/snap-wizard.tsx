@@ -26,6 +26,7 @@ import {
   ArrowRight,
   Check,
   Download,
+  ExternalLink,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -42,8 +43,9 @@ import {
 } from '@/components/ui/select';
 
 const steps = [
-  { id: 1, name: 'Snap Details' },
-  { id: 2, name: 'Generate YAML' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Snap Details' },
+  { id: 3, name: 'Generate YAML' },
 ];
 
 const formSchema = z.object({
@@ -90,7 +92,7 @@ export function SnapWizard() {
       packageName: data.name,
       packageVersion: data.version,
     });
-    nextStep();
+    setStep(3);
   };
 
   const generateYaml = (data: FormData) => {
@@ -129,6 +131,42 @@ parts:
   const renderStepContent = () => {
     switch (step) {
       case 1:
+        return (
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About Snap</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  Snaps are app packages for desktop, cloud and IoT that are easy to install, secure, cross-platform and dependency-free. Snapcraft is the tool used to build snaps and publish them to the Snap Store.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-orange-50 dark:bg-orange-950 border border-orange-200 dark:border-orange-800 p-4">
+                    <h4 className="font-semibold text-orange-700 dark:text-orange-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-orange-600 dark:text-orange-400 space-y-1">
+                      <li>Bundle dependencies automatically</li>
+                      <li>Strict confinement and security</li>
+                      <li>Automatic updates</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={() => setStep(2)}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 2:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -277,15 +315,18 @@ parts:
                   </div>
                 </div>
               </CardContent>
-              <CardFooter className="justify-end gap-2">
+              <CardFooter className="justify-between gap-2">
+                <Button type="button" variant="ghost" onClick={prevStep}>
+                  <ArrowLeft className="mr-2 h-4 w-4" /> Back
+                </Button>
                 <Button type="submit">
-                  Generate <ArrowRight />
+                  Generate <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </CardFooter>
             </form>
           </Form>
         );
-      case 2:
+      case 3:
         const formData = form.getValues();
         const yamlContent = generateYaml(formData);
         const filename = `snapcraft.yaml`;
@@ -301,7 +342,7 @@ parts:
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={() => downloadFile(yamlContent, filename)}
                 >
                   <Download className="h-4 w-4" />
@@ -323,7 +364,7 @@ parts:
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -335,7 +376,7 @@ parts:
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                         ? 'bg-primary text-primary-foreground'
@@ -354,14 +395,14 @@ parts:
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[500px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 2 && (
+        {step === 3 && (
           <CardFooter className="justify-end">
-            <Button variant="ghost" onClick={prevStep}>
+            <Button variant="ghost" onClick={() => setStep(2)}>
               <ArrowLeft /> Back to Edit
             </Button>
           </CardFooter>

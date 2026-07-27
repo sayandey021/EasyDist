@@ -43,6 +43,14 @@ const openSourceTools = [
     tags: ['Free', 'FOSS', 'Software', 'Linux', 'macOS'],
   },
   {
+    name: 'MacPorts',
+    description: 'Generate Portfiles for the MacPorts package manager.',
+    href: '/macports',
+    icon: getPlatformIcon('MacPorts'),
+    image: PlaceHolderImages.find((img) => img.id === 'tool-macports'),
+    tags: ['Free', 'FOSS', 'Software', 'macOS'],
+  },
+  {
     name: 'AUR',
     description: 'Create PKGBUILDs for the Arch User Repository.',
     href: '/aur',
@@ -304,6 +312,131 @@ const gamingPlatforms = [
     href: '/newgrounds',
     icon: getPlatformIcon('Newgrounds'),
     tags: ['Free', 'Indie', 'Games', 'Web', 'HTML5'],
+  },
+];
+
+const sourceControlPlatforms = [
+  {
+    name: 'GitHub',
+    description: 'World\'s largest developer platform and code hosting service.',
+    href: '/github',
+    icon: getPlatformIcon('GitHub'),
+    tags: ['Free Tier Available', 'Source Control', 'CI/CD'],
+  },
+  {
+    name: 'GitLab',
+    description: 'The comprehensive DevSecOps platform.',
+    href: '/gitlab',
+    icon: getPlatformIcon('GitLab'),
+    tags: ['Free Tier Available', 'Source Control', 'DevSecOps'],
+  },
+  {
+    name: 'Bitbucket',
+    description: 'Git solution for professional teams by Atlassian.',
+    href: '/bitbucket',
+    icon: getPlatformIcon('Bitbucket'),
+    tags: ['Free Tier Available', 'Source Control', 'Atlassian'],
+  },
+  {
+    name: 'Gitea',
+    description: 'A painless self-hosted Git service.',
+    href: '/gitea',
+    icon: getPlatformIcon('Gitea'),
+    tags: ['Open Source', 'Self-Hosted', 'Source Control'],
+  },
+  {
+    name: 'Codeberg',
+    description: 'A democratic community-driven, non-profit software development platform.',
+    href: '/codeberg',
+    icon: getPlatformIcon('Codeberg'),
+    tags: ['Open Source', 'Non-Profit', 'Source Control', 'Gitea'],
+  },
+  {
+    name: 'SourceForge',
+    description: 'A web-based service that offers software developers a centralized online location to control and manage free and open-source software projects.',
+    href: '/sourceforge',
+    icon: getPlatformIcon('SourceForge'),
+    tags: ['Open Source', 'Source Control', 'Legacy'],
+  },
+  {
+    name: 'Launchpad',
+    description: 'A software collaboration platform that provides bug tracking, code hosting, and Ubuntu package building.',
+    href: '/launchpad',
+    icon: getPlatformIcon('Launchpad'),
+    tags: ['Canonical', 'PPA', 'Source Control'],
+  },
+  {
+    name: 'Hugging Face',
+    description: 'The AI community building the future. Build, train and deploy state of the art models powered by the reference open source in machine learning.',
+    href: '/huggingface',
+    icon: getPlatformIcon('Hugging Face'),
+    tags: ['AI/ML', 'Models', 'Source Control', 'Datasets'],
+  },
+];
+
+const languagePlatforms = [
+  {
+    name: 'Pip',
+    description: 'The package installer for Python.',
+    href: '/pip',
+    icon: getPlatformIcon('Pip'),
+    tags: ['Python', 'Package Manager'],
+  },
+  {
+    name: 'Cargo',
+    description: 'The Rust package manager.',
+    href: '/cargo',
+    icon: getPlatformIcon('Cargo'),
+    tags: ['Rust', 'Package Manager'],
+  },
+  {
+    name: 'vcpkg',
+    description: 'C++ Library Manager for Windows, Linux, and macOS.',
+    href: '/vcpkg',
+    icon: getPlatformIcon('vcpkg'),
+    tags: ['C++', 'Package Manager'],
+  },
+  {
+    name: 'Bun',
+    description: 'A fast all-in-one JavaScript runtime, bundler, test runner, and package manager.',
+    href: '/bun',
+    icon: getPlatformIcon('Bun'),
+    tags: ['JavaScript', 'TypeScript', 'Runtime', 'Package Manager'],
+  },
+  {
+    name: 'npm',
+    description: 'The default package manager for the JavaScript runtime environment Node.js.',
+    href: '/npm',
+    icon: getPlatformIcon('npm'),
+    tags: ['JavaScript', 'Node.js', 'Package Manager'],
+  },
+  {
+    name: 'Docker Hub',
+    description: 'The world\'s largest library and community for container images.',
+    href: '/dockerhub',
+    icon: getPlatformIcon('Docker Hub'),
+    tags: ['Docker', 'Container', 'Registry'],
+  },
+  {
+    name: 'NuGet',
+    description: 'The package manager for .NET.',
+    href: '/nuget',
+    icon: getPlatformIcon('NuGet'),
+    tags: ['.NET', 'C#', 'Package Manager'],
+  },
+  {
+    name: 'Packagist',
+    description: 'The main Composer repository for PHP packages.',
+    href: '/packagist',
+    icon: getPlatformIcon('Packagist'),
+    tags: ['PHP', 'Composer', 'Package Manager'],
+  },
+  {
+    name: 'Go',
+    description: 'Dependency management system built into the Go programming language.',
+    href: '/go',
+    icon: getPlatformIcon('Go'),
+    tags: ['Go', 'Modules', 'Package Manager'],
   },
 ];
 
@@ -579,7 +712,7 @@ const excludedFilterTags = [
 // Excludes certain tags from the filter while keeping them on the cards
 const allTags = (() => {
   const tagSet = new Set<string>();
-  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms].forEach(tool => {
+  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms, ...sourceControlPlatforms].forEach(tool => {
     tool.tags.forEach(tag => tagSet.add(tag));
   });
   // Filter out excluded tags
@@ -668,12 +801,16 @@ export default function DashboardPage() {
   const filteredProprietary = useMemo(() => filterTools(proprietaryTools, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredCommercial = useMemo(() => filterTools(commercialPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredGaming = useMemo(() => filterTools(gamingPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
+  const filteredSourceControl = useMemo(() => filterTools(sourceControlPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
+  const filteredLanguagePlatforms = useMemo(() => filterTools(languagePlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
 
   // Check if any results exist
   const hasResults = filteredOpenSource.length > 0 ||
     filteredProprietary.length > 0 ||
     filteredCommercial.length > 0 ||
-    filteredGaming.length > 0;
+    filteredGaming.length > 0 ||
+    filteredSourceControl.length > 0 ||
+    filteredLanguagePlatforms.length > 0;
 
   // Check if any filters are active
   const hasActiveFilters = searchQuery.trim() !== '' || selectedTags.length > 0;
@@ -685,20 +822,23 @@ export default function DashboardPage() {
       <Tabs defaultValue="all" className="w-full">
         {/* Filter and View Controls */}
         <div className="flex flex-col gap-4 mb-4">
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <div className="flex items-center gap-3">
-              <TabsList>
+          <div className="flex items-center justify-between gap-3">
+            <div className="flex items-center gap-3 min-w-0 max-w-full">
+              <TabsList className="flex flex-nowrap justify-start overflow-x-auto overflow-y-hidden min-w-0 [&::-webkit-scrollbar]:hidden">
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="open-source">Open Source</TabsTrigger>
                 <TabsTrigger value="closed-source">Closed Source</TabsTrigger>
                 <TabsTrigger value="commercial">Commercial</TabsTrigger>
                 <TabsTrigger value="games">Games</TabsTrigger>
+                <TabsTrigger value="source-control">Source Control</TabsTrigger>
+                <TabsTrigger value="language-managers">Language Managers</TabsTrigger>
               </TabsList>
-
-              <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
             </div>
 
-            <div className="flex items-center gap-2">
+            <ViewModeToggle viewMode={viewMode} setViewMode={setViewMode} />
+          </div>
+
+          <div className="flex items-center gap-2">
               {/* Filter Toggle Button */}
               <button
                 onClick={() => setShowFilters(!showFilters)}
@@ -719,7 +859,6 @@ export default function DashboardPage() {
 
               <SearchFilter searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </div>
-          </div>
 
           {/* Collapsible Tag Filter */}
           <div className={`overflow-hidden transition-all duration-300 ease-in-out ${showFilters ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
@@ -770,6 +909,12 @@ export default function DashboardPage() {
               {filteredGaming.length > 0 && (
                 <Section title="Gaming Platforms" tools={filteredGaming} viewMode={viewMode} />
               )}
+              {filteredSourceControl.length > 0 && (
+                <Section title="Source Control" tools={filteredSourceControl} viewMode={viewMode} />
+              )}
+              {filteredLanguagePlatforms.length > 0 && (
+                <Section title="Language Package Managers" tools={filteredLanguagePlatforms} viewMode={viewMode} />
+              )}
             </div>
           )}
         </TabsContent>
@@ -813,9 +958,27 @@ export default function DashboardPage() {
             </div>
           ) : null}
         </TabsContent>
+
+        <TabsContent value="source-control" className="mt-6 space-y-6">
+          {filteredSourceControl.length > 0 ? (
+            <Section title="Source Control" tools={filteredSourceControl} viewMode={viewMode} />
+          ) : searchQuery ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No source control platforms match &quot;{searchQuery}&quot;
+            </div>
+          ) : null}
+        </TabsContent>
+        
+        <TabsContent value="language-managers" className="mt-6 space-y-6">
+          {filteredLanguagePlatforms.length > 0 ? (
+            <Section title="Language Package Managers" tools={filteredLanguagePlatforms} viewMode={viewMode} />
+          ) : searchQuery ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No language package managers match &quot;{searchQuery}&quot;
+            </div>
+          ) : null}
+        </TabsContent>
       </Tabs>
     </div>
   );
 }
-
-

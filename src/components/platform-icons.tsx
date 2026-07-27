@@ -2,7 +2,7 @@
 // These logos are stored in /public/logos/ directory
 
 import Image from 'next/image';
-import { ShoppingBag } from 'lucide-react';
+import { ShoppingBag, Github, Gitlab, Code } from 'lucide-react';
 
 interface IconProps {
     className?: string;
@@ -48,11 +48,31 @@ export const PlatformLogos: Record<string, string> = {
     'Nix': '/logos/nix.png',
     'AUR': '/logos/aur.png',
     'Homebrew': '/logos/homebrew.png',
+    'MacPorts': '/logos/macports.png',
     'Chocolatey': '/logos/chocolatey.png',
     'Scoop': '/logos/scoop.png',
     'WinGet': '/logos/winget.png',
     'Copr': '/logos/copr.png',
     'OBS': '/logos/obs.png',
+
+    // Source Control
+    'GitHub': '/logos/github.svg',
+    'GitLab': '/logos/gitlab.svg',
+    'Bitbucket': '/logos/bitbucket.svg',
+    'Gitea': '/logos/gitea.svg',
+    'Codeberg': '/logos/codeberg-color.svg',
+    'SourceForge': '/logos/sourceforge-color.svg',
+    'Launchpad': '/logos/launchpad.png',
+    'Hugging Face': '/logos/huggingface-official.svg',
+    'Pip': '/logos/pip-official.svg',
+    'Cargo': '/logos/cargo-color.svg',
+    'vcpkg': '/logos/vcpkg-logo.png',
+    'Bun': '/logos/bun-official.svg',
+    'npm': '/logos/npm-color.svg',
+    'Docker Hub': '/logos/dockerhub-color.svg',
+    'NuGet': '/logos/nuget-color.svg',
+    'Packagist': '/logos/packagist.png',
+    'Go': '/logos/go.png',
 };
 
 // Component that renders platform logo as PNG image

@@ -45,9 +45,10 @@ import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 
 const steps = [
-    { id: 1, name: 'App Details' },
-    { id: 2, name: 'Metadata' },
-    { id: 3, name: 'Generate & Submit' },
+    { id: 1, name: 'About' },
+    { id: 2, name: 'App Details' },
+    { id: 3, name: 'Metadata' },
+    { id: 4, name: 'Generate & Submit' },
 ];
 
 const formSchema = z.object({
@@ -133,7 +134,7 @@ export function IzzyOnDroidWizard() {
             packageName: data.appId,
             packageVersion: 'latest',
         });
-        nextStep();
+        setStep(4);
     };
 
     const generateMetadata = (data: FormData) => {
@@ -213,6 +214,42 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
         switch (step) {
             case 1:
                 return (
+                    <>
+                        <CardContent className="space-y-6 p-6">
+                            <div className="space-y-4">
+                                <h3 className="text-xl font-semibold">About IzzyOnDroid</h3>
+                                <p className="text-muted-foreground leading-relaxed">
+                                    IzzyOnDroid is a popular third-party F-Droid repository that focuses on tracking pre-built APKs from GitHub/GitLab releases. It is a great way to distribute FOSS Android apps without setting up reproducible builds.
+                                </p>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                                    <div className="rounded-lg bg-teal-50 dark:bg-teal-950 border border-teal-200 dark:border-teal-800 p-4">
+                                        <h4 className="font-semibold text-teal-700 dark:text-teal-300 mb-2">Key Features</h4>
+                                        <ul className="list-disc list-inside text-sm text-teal-600 dark:text-teal-400 space-y-1">
+                                            <li>Uses pre-built APKs</li>
+                                            <li>Quick inclusion process</li>
+                                            <li>Less strict than main F-Droid repo</li>
+                                        </ul>
+                                    </div>
+                                    <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                                </div>
+                            </div>
+                        </CardContent>
+                        <CardFooter className="justify-end gap-2">
+                            <Button onClick={nextStep}>
+                                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
+                            </Button>
+                        </CardFooter>
+                    </>
+                );
+            case 2:
+                return (
                     <Form {...form}>
                         <form onSubmit={(e) => { e.preventDefault(); onStep1Submit(); }}>
                             <CardContent className="space-y-8 p-6">
@@ -281,14 +318,17 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                                 </div>
                             </CardContent>
                             <CardFooter className="justify-end gap-2">
+                                <Button type="button" variant="ghost" onClick={prevStep}>
+                                    <ArrowLeft /> Back
+                                </Button>
                                 <Button type="submit">
-                                    Next <ArrowRight />
+                                    Next <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </CardFooter>
                         </form>
                     </Form>
                 );
-            case 2:
+            case 3:
                 return (
                     <Form {...form}>
                         <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -408,13 +448,13 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                                     <ArrowLeft /> Back
                                 </Button>
                                 <Button type="submit">
-                                    Generate <ArrowRight />
+                                    Generate <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </CardFooter>
                         </form>
                     </Form>
                 );
-            case 3:
+            case 4:
                 const formData = form.getValues();
                 const metadataContent = generateMetadata(formData);
                 const submissionTemplate = generateSubmissionTemplate(formData);
@@ -431,7 +471,7 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-2 top-2 h-7 w-7"
+                                    className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                                     onClick={() => downloadFile(metadataContent, metadataFilename)}
                                 >
                                     <Download className="h-4 w-4" />
@@ -449,7 +489,7 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                                 <Button
                                     variant="ghost"
                                     size="icon"
-                                    className="absolute right-2 top-2 h-7 w-7"
+                                    className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                                     onClick={() => downloadFile(submissionTemplate, 'inclusion-request.md')}
                                 >
                                     <Download className="h-4 w-4" />
@@ -478,7 +518,7 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
     };
 
     return (
-        <div className="mx-auto w-full max-w-4xl">
+        <div className="mx-auto w-full max-w-none">
             <Card>
                 <CardHeader>
                     <div className="flex items-center justify-between">
@@ -490,7 +530,7 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                         </div>
                         <div className="flex items-center gap-2">
                             {steps.map((s, i) => (
-                                <div key={s.id} className="flex items-center gap-2">
+                                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                                     <div
                                         className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                                             ? 'bg-primary text-primary-foreground'
@@ -509,12 +549,12 @@ ${selectedAntiFeatures.length > 0 ? selectedAntiFeatures.map(af => `- ${af}`).jo
                         </div>
                     </div>
                 </CardHeader>
-                <div className="min-h-[500px]">
+                <div className="w-full">
                     <div key={step} className="animate-in fade-in duration-300">
                         {renderStepContent()}
                     </div>
                 </div>
-                {step === 3 && (
+                {step === 4 && (
                     <CardFooter className="justify-end">
                         <Button variant="ghost" onClick={prevStep}>
                             <ArrowLeft /> Back to Edit

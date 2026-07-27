@@ -29,6 +29,7 @@ import {
   FileUp,
   Loader,
   Github,
+  ExternalLink,
 } from 'lucide-react';
 import { useState, useTransition, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
@@ -44,9 +45,10 @@ import { saveHistoryItem } from '@/lib/history';
 
 
 const steps = [
-  { id: 1, name: 'Upload Installer' },
-  { id: 2, name: 'Manifest Details' },
-  { id: 3, name: 'Generate Manifest' },
+  { id: 1, name: 'About' },
+  { id: 2, name: 'Upload Installer' },
+  { id: 3, name: 'Manifest Details' },
+  { id: 4, name: 'Generate Manifest' },
 ];
 
 const formSchema = z.object({
@@ -123,7 +125,7 @@ export function WingetWizard() {
     startHashing(async () => {
       const hash = await calculateSHA256(file);
       form.setValue('installerSha256', hash);
-      setStep(2);
+      setStep(3);
     });
   };
 
@@ -198,30 +200,73 @@ ManifestVersion: 1.6.0
     switch (step) {
       case 1:
         return (
-          <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
-            <FileUp className="h-16 w-16 text-muted-foreground" />
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold">Upload Your Installer</h3>
-              <p className="text-muted-foreground">
-                Select your application's installer file (.exe, .msi) to
-                calculate its SHA256 hash.
-              </p>
-            </div>
-            <div className="flex w-full max-w-sm items-center space-x-2">
-              <Input
-                id="installerFile"
-                type="file"
-                onChange={handleFileChange}
-                disabled={isHashing}
-                className="flex-grow"
-              />
-              <Button onClick={handleFileUpload} disabled={!file || isHashing}>
-                {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+          <>
+            <CardContent className="space-y-6 p-6">
+              <div className="space-y-4">
+                <h3 className="text-xl font-semibold">About WinGet</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  The Windows Package Manager (WinGet) is a comprehensive package manager developed by Microsoft for Windows 10 and 11. It allows developers to discover, install, upgrade, remove and configure applications on Windows natively without needing third-party tools.
+                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+                  <div className="rounded-lg bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 p-4">
+                    <h4 className="font-semibold text-blue-700 dark:text-blue-300 mb-2">Key Features</h4>
+                    <ul className="list-disc list-inside text-sm text-blue-600 dark:text-blue-400 space-y-1">
+                      <li>Native Windows integration</li>
+                      <li>YAML-based manifests</li>
+                      <li>Supports EXE, MSI, and MSIX installers</li>
+                    </ul>
+                  </div>
+                  <div className="rounded-lg bg-muted/50 p-4">
+                    <h4 className="font-semibold mb-2">Prerequisites</h4>
+                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
+                      <li>Software metadata (Name, Version, etc.)</li>
+                      <li>Source code or binary download URL</li>
+                      <li>Basic understanding of the platform</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-end gap-2">
+              <Button onClick={nextStep}>
+                Start Wizard <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-            </div>
-          </CardContent>
+            </CardFooter>
+          </>
         );
       case 2:
+        return (
+          <>
+            <CardContent className="flex flex-col items-center justify-center gap-6 p-10 text-center">
+              <FileUp className="h-16 w-16 text-muted-foreground" />
+              <div className="space-y-1">
+                <h3 className="text-xl font-semibold">Upload Your Installer</h3>
+                <p className="text-muted-foreground">
+                  Select your application's installer file (.exe, .msi) to
+                  calculate its SHA256 hash.
+                </p>
+              </div>
+              <div className="flex w-full max-w-sm items-center space-x-2">
+                <Input
+                  id="installerFile"
+                  type="file"
+                  onChange={handleFileChange}
+                  disabled={isHashing}
+                  className="flex-grow"
+                />
+                <Button onClick={handleFileUpload} disabled={!file || isHashing}>
+                  {isHashing ? <Loader className="animate-spin" /> : 'Continue'}
+                </Button>
+              </div>
+            </CardContent>
+            <CardFooter className="justify-start">
+              <Button type="button" variant="ghost" onClick={prevStep}>
+                <ArrowLeft /> Back
+              </Button>
+            </CardFooter>
+          </>
+        );
+      case 3:
         return (
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -390,7 +435,7 @@ ManifestVersion: 1.6.0
             </form>
           </Form>
         );
-      case 3:
+      case 4:
         const formData = form.getValues();
         const submissionUrl = generateSubmissionUrl(formData);
         return (
@@ -405,7 +450,7 @@ ManifestVersion: 1.6.0
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="absolute right-2 top-2 h-7 w-7"
+                  className="absolute right-10 top-2 h-7 w-7 text-muted-foreground hover:text-foreground"
                   onClick={downloadYaml}
                 >
                   <Download className="h-4 w-4" />
@@ -432,7 +477,7 @@ ManifestVersion: 1.6.0
   };
 
   return (
-    <div className="mx-auto w-full max-w-4xl">
+    <div className="mx-auto w-full max-w-none">
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -444,7 +489,7 @@ ManifestVersion: 1.6.0
             </div>
             <div className="flex items-center gap-2">
               {steps.map((s, i) => (
-                <div key={s.id} className="flex items-center gap-2">
+                <div key={s.id} className="flex items-center gap-2" title={s.name}>
                   <div
                     className={`flex h-6 w-6 items-center justify-center rounded-full text-xs font-bold ${step > s.id
                         ? 'bg-primary text-primary-foreground'
@@ -461,12 +506,12 @@ ManifestVersion: 1.6.0
             </div>
           </div>
         </CardHeader>
-        <div className="min-h-[400px]">
+        <div className="w-full">
           <div key={step} className="animate-in fade-in duration-300">
             {renderStepContent()}
           </div>
         </div>
-        {step === 3 && (
+        {step === 4 && (
           <CardFooter className='justify-end'>
             <Button variant="ghost" onClick={prevStep}>
               <ArrowLeft /> Back to Edit
