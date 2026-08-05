@@ -1,3 +1,24 @@
+# EasyDist v1.4.3 Release Notes
+
+**Release Date:** August 05, 2026
+
+We are excited to announce the release of **EasyDist v1.4.3**! This update focuses heavily on optimization, significantly reducing the app's footprint and refining the build pipeline.
+
+## 🛠️ Fixes & Optimizations
+
+### Massive Size Reduction
+*   **App Size Slashed:** Drastically reduced the installed application size from **~800 MB to ~165 MB**.
+*   **Dependency Optimization:** Reorganized `package.json` to move massive frontend UI libraries (Next.js, React, Tailwind, etc.) to `devDependencies`, ensuring only essential runtime dependencies are bundled by Electron.
+*   **Icon Build Optimization:** Prevented redundant duplication of the 1MB `icon.png` asset across multiple target sizes, saving an additional 8 MB from the final MSIX bundle.
+
+### Taskbar Icon Fix
+*   **Full-size Icons:** Fixed an issue where the EasyDist logo appeared smaller than other apps in the Windows Taskbar and Start Menu. The MSIX build script now generates special "unplated" TargetSize assets, forcing Windows to render the icon edge-to-edge without a padded background plate.
+
+### Build Script Improvements
+*   **Automatic Cleanup:** Updated `build-msix.ps1` to automatically delete all temporary packaging folders (`win-unpacked`, `__appx-x64`) and configuration files after a successful build. The `dist/` folder now remains completely clean, containing only the final `.exe` and `.msix` artifacts.
+
+---
+
 # EasyDist v1.4.2 Release Notes
 
 **Release Date:** July 13, 2026

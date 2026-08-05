@@ -68,6 +68,14 @@ else {
         Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.png") -Force
         Copy-Item $iconPath (Join-Path $AssetsDest "Square150x150Logo.png") -Force
         Copy-Item $iconPath (Join-Path $AssetsDest "Wide310x150Logo.png") -Force
+        
+        # Add targetsize icons for taskbar (unplated ensures Windows doesn't shrink it into a background plate)
+        # We only copy the 256 size to save space. Windows will automatically scale this down for smaller sizes.
+        $TargetSizes = @("256")
+        foreach ($size in $TargetSizes) {
+            Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size.png") -Force
+            Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size`_altform-unplated.png") -Force
+        }
     }
 }
 
@@ -197,6 +205,12 @@ if ($LASTEXITCODE -ne 0) {
     Write-Error "makeappx.exe failed"
     exit 1
 }
+
+# Step 7: Clean up temporary files
+Write-Host "`n[7/7] Cleaning up temporary files..." -ForegroundColor Yellow
+Get-ChildItem -Path $DistPath | Where-Object { 
+    $_.PSIsContainer -or ($_.Extension -ne ".exe" -and $_.Extension -ne ".msix")
+} | Remove-Item -Recurse -Force
 
 Write-Host "`n=== Build Complete! ===" -ForegroundColor Green
 Write-Host "MSIX Package: $MsixOutput" -ForegroundColor Cyan

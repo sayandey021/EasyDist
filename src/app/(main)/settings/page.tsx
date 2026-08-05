@@ -332,7 +332,7 @@ export default function SettingsPage() {
             </div>
             <div className="flex items-center justify-between py-2 border-b border-border/50">
               <span className="text-sm text-muted-foreground">Version</span>
-              <span className="text-sm font-medium">.\change-version.bat</span>
+              <span className="text-sm font-medium">1.4.3</span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-border/50">
               <span className="text-sm text-muted-foreground">Developer</span>
