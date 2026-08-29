@@ -4,6 +4,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { AccentThemeProvider, ThemeProvider } from '@/components/theme-provider';
 import { ExitDialogProvider } from '@/components/exit-dialog-provider';
+import TitleBar from '@/components/titlebar';
 
 // Optimize font loading with next/font
 const inter = Inter({
@@ -50,7 +51,12 @@ export default function RootLayout({
         >
           <AccentThemeProvider>
             <ExitDialogProvider>
-              {children}
+              <div className="flex flex-col h-screen w-screen overflow-hidden">
+                <TitleBar />
+                <div className="flex-1 min-h-0 w-full overflow-hidden relative">
+                  {children}
+                </div>
+              </div>
               <Toaster />
             </ExitDialogProvider>
           </AccentThemeProvider>

@@ -57,6 +57,33 @@ ipcMain.handle('set-skip-close-confirmation', (event, value) => {
     return true;
 });
 
+// Window control IPC handlers
+ipcMain.on('window-minimize', () => {
+    if (mainWindow) {
+        mainWindow.minimize();
+    }
+});
+
+ipcMain.on('window-maximize', () => {
+    if (mainWindow) {
+        if (mainWindow.isMaximized()) {
+            mainWindow.unmaximize();
+        } else {
+            mainWindow.maximize();
+        }
+    }
+});
+
+ipcMain.on('window-close', () => {
+    if (mainWindow) {
+        mainWindow.close();
+    }
+});
+
+ipcMain.handle('is-window-maximized', () => {
+    return mainWindow ? mainWindow.isMaximized() : false;
+});
+
 function createWindow() {
     // Get the icon path - works for both dev and production
     const iconPath = path.join(__dirname, '../icon.png');
@@ -64,8 +91,8 @@ function createWindow() {
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
-        minWidth: 1200,
-        minHeight: 800,
+        minWidth: 1000,
+        minHeight: 700,
         icon: iconPath, // Set taskbar and window icon
         webPreferences: {
             nodeIntegration: true,
@@ -75,7 +102,8 @@ function createWindow() {
             webgl: false, // Disable WebGL if not needed
         },
         autoHideMenuBar: true,
-        frame: true,
+        frame: false, // Frameless for modern custom titlebar
+        titleBarStyle: 'hidden',
         // Performance: Show window when ready to prevent white flash
         show: false,
         backgroundColor: '#1f1f23', // Match dark theme background
@@ -84,6 +112,19 @@ function createWindow() {
     // Show window when content is ready to prevent white flash
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
+    });
+
+    // Broadcast maximize state changes to renderer for dynamic icon updates
+    mainWindow.on('maximize', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-maximized-change', true);
+        }
+    });
+
+    mainWindow.on('unmaximize', () => {
+        if (mainWindow && !mainWindow.isDestroyed()) {
+            mainWindow.webContents.send('window-maximized-change', false);
+        }
     });
 
     // Confirm before closing the app - use IPC for custom Fluent UI dialog

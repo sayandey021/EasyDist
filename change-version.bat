@@ -19,13 +19,17 @@ call npm version %NEW_VERSION% --no-git-tag-version
 
 echo.
 echo ===================================================
-echo Updating version in App About UI ^(settings/page.tsx^)...
+echo Updating version in Titlebar, Settings & App UI...
 echo ===================================================
 node scripts\update-about-version.js %NEW_VERSION%
 
 echo.
 echo ===================================================
 echo Version successfully updated to %NEW_VERSION% !
+echo - package.json: %NEW_VERSION%
+echo - Titlebar version badge: v%NEW_VERSION%
+echo - Settings / About UI: %NEW_VERSION%
+echo.
 echo Note: MSIX/AppX build setup automatically inherits 
 echo the new version from package.json during the build.
 echo ===================================================

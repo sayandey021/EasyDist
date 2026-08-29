@@ -1,0 +1,42 @@
+<svg version="1.2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
+	<defs>
+		<linearGradient id="g1" x2="1" gradientUnits="userSpaceOnUse" gradientTransform="matrix(84,84,-84,84,22,22)">
+			<stop offset="0" stop-color="#00c7ff"/>
+			<stop offset="1" stop-color="#0066ff"/>
+		</linearGradient>
+		<image  width="34" height="33" id="img1" href="data:image/png;base64,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"/>
+	</defs>
+	<style>
+		.s0 { fill: #ffffff } 
+		.s1 { fill: none;stroke: #e2e8f0;stroke-width: 1.5 } 
+		.s2 { fill: url(#g1) } 
+		.s3 { fill: #000000;stroke: #ffffff;stroke-width: 1.5 } 
+		.s4 { fill: #ff3b30 } 
+		.s5 { fill: #ff5247 } 
+		.s6 { fill: #e5e5ea } 
+		.s7 { fill: #0066ff } 
+	</style>
+	<path fill-rule="evenodd" class="s0" d="m36 8h56c15.46 0 28 12.54 28 28v56c0 15.46-12.54 28-28 28h-56c-15.46 0-28-12.54-28-28v-56c0-15.46 12.54-28 28-28z"/>
+	<path fill-rule="evenodd" class="s1" d="m36 8h56c15.46 0 28 12.54 28 28v56c0 15.46-12.54 28-28 28h-56c-15.46 0-28-12.54-28-28v-56c0-15.46 12.54-28 28-28z"/>
+	<path fill-rule="evenodd" class="s2" d="m64 106c-23.23 0-42-18.77-42-42 0-23.23 18.77-42 42-42 23.23 0 42 18.77 42 42 0 23.23-18.77 42-42 42z"/>
+	<g style="opacity: .6">
+		<path fill-rule="evenodd" class="s3" d="m64 26v4"/>
+		<path fill-rule="evenodd" class="s3" d="m64 102v-4"/>
+		<path fill-rule="evenodd" class="s3" d="m26 64h4"/>
+		<path fill-rule="evenodd" class="s3" d="m102 64h-4"/>
+		<path fill-rule="evenodd" class="s3" d="m37 37l3 3"/>
+		<path fill-rule="evenodd" class="s3" d="m91 37l-3 3"/>
+		<path fill-rule="evenodd" class="s3" d="m37 91l3-3"/>
+		<path fill-rule="evenodd" class="s3" d="m91 91l-3-3"/>
+	</g>
+	<g>
+		<path fill-rule="evenodd" class="s4" d="m86.63 41.37l-17.68 27.58-2.12-7.78z"/>
+		<path fill-rule="evenodd" class="s5" d="m86.63 41.37l-27.58 17.68 7.78 2.12z"/>
+		<path fill-rule="evenodd" class="s0" d="m41.37 86.63l27.58-17.68-7.78-2.12z"/>
+		<path fill-rule="evenodd" class="s6" d="m41.37 86.63l17.68-27.58 2.12 7.78z"/>
+		<path fill-rule="evenodd" class="s0" d="m61.88 66.12c-1.17-1.17-1.17-3.07 0-4.24 1.17-1.17 3.07-1.17 4.24 0 1.17 1.17 1.17 3.07 0 4.24-1.17 1.17-3.07 1.17-4.24 0z"/>
+	</g>
+	<path fill-rule="evenodd" class="s7" d="m94 110c-8.85 0-16-7.15-16-16 0-8.85 7.15-16 16-16 8.85 0 16 7.15 16 16 0 8.85-7.15 16-16 16z"/>
+	<path class="s0" d="m89.25 87.55h5.1v2.55q0.34 0 0.65 0.13 0.31 0.13 0.55 0.37 0.24 0.24 0.37 0.55 0.13 0.31 0.13 0.65 0 0.34-0.13 0.65-0.13 0.31-0.37 0.55-0.24 0.24-0.55 0.37-0.31 0.13-0.65 0.13v2.55h-2.55q0 0.34-0.13 0.65-0.13 0.31-0.37 0.55-0.24 0.24-0.55 0.37-0.31 0.13-0.65 0.13-0.34 0-0.65-0.13-0.31-0.13-0.55-0.37-0.24-0.24-0.37-0.55-0.13-0.31-0.13-0.65h-2.55v-5.1h2.55q0-0.34 0.13-0.65 0.13-0.31 0.37-0.55 0.24-0.24 0.55-0.37 0.31-0.13 0.65-0.13-0.34 0-0.65-0.13-0.31-0.13-0.55-0.37-0.24-0.24-0.37-0.55-0.13-0.31-0.13-0.65z"/>
+	<use id="Layer 1" href="#img1" x="77" y="78"/>
+</svg>

@@ -143,7 +143,9 @@ const CollapsibleSection = memo(function CollapsibleSection({
   pathname: string;
   defaultOpen?: boolean;
 }) {
-  const hasActiveItem = items.some(item => pathname.startsWith(item.href));
+  const hasActiveItem = items.some(item => 
+    item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+  );
 
   const { isOpen, toggleOpen } = useCategoryState(
     id,
@@ -188,7 +190,7 @@ const CollapsibleSection = memo(function CollapsibleSection({
               icon={item.icon}
               logoPath={item.logoPath}
               label={item.label}
-              isActive={pathname.startsWith(item.href)}
+              isActive={item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)}
             />
           ))}
         </SidebarGroupContent>
@@ -238,8 +240,11 @@ const commercialItems = [
   { href: '/huawei-store', logoPath: PlatformLogos['Huawei AppGallery'], label: 'Huawei AppGallery' },
   { href: '/malavida', logoPath: PlatformLogos['Malavida'], label: 'Malavida' },
   { href: '/microsoft-store', logoPath: PlatformLogos['Microsoft Store'], label: 'Microsoft Store' },
+  { href: '/oppo-market', logoPath: PlatformLogos['OPPO App Market'], label: 'OPPO App Market' },
   { href: '/softonic', logoPath: PlatformLogos['Softonic'], label: 'Softonic' },
   { href: '/uptodown', logoPath: PlatformLogos['Uptodown'], label: 'Uptodown' },
+  { href: '/vivo-appstore', logoPath: PlatformLogos['Vivo V-Appstore'], label: 'Vivo V-Appstore' },
+  { href: '/xiaomi-getapps', logoPath: PlatformLogos['Xiaomi GetApps'], label: 'Xiaomi GetApps' },
 ];
 
 const gamingItems = [
@@ -278,6 +283,17 @@ const languageManagers = [
   { href: '/go', logoPath: PlatformLogos['Go'], icon: Code, label: 'Go' },
 ];
 
+const extensionItems = [
+  { href: '/chrome-web-store', logoPath: PlatformLogos['Chrome Web Store'], label: 'Chrome Web Store' },
+  { href: '/firefox-addons', logoPath: PlatformLogos['Firefox Add-ons'], label: 'Firefox Add-ons' },
+  { href: '/edge-addons', logoPath: PlatformLogos['Edge Add-ons'], label: 'Edge Add-ons' },
+  { href: '/opera-addons', logoPath: PlatformLogos['Opera Add-ons'], label: 'Opera Add-ons' },
+  { href: '/safari-extensions', logoPath: PlatformLogos['Safari Web Extensions'], label: 'Safari Web Extensions' },
+  { href: '/greasy-fork', logoPath: PlatformLogos['Greasy Fork'], label: 'Greasy Fork' },
+  { href: '/openuserjs', logoPath: PlatformLogos['OpenUserJS'], label: 'OpenUserJS' },
+  { href: '/naver-whale', logoPath: PlatformLogos['Naver Whale'], label: 'Naver Whale' },
+];
+
 // Theme toggle component
 const ThemeToggle = memo(function ThemeToggle() {
   const { setTheme, theme } = useTheme();
@@ -300,8 +316,6 @@ const ThemeToggle = memo(function ThemeToggle() {
       Math.max(y, innerHeight - y)
     );
 
-    const isDark = newTheme === 'dark';
-
     const transition = document.startViewTransition(() => {
       flushSync(() => {
         setTheme(newTheme);
@@ -316,15 +330,13 @@ const ThemeToggle = memo(function ThemeToggle() {
 
       document.documentElement.animate(
         {
-          clipPath: isDark ? clipPath : [...clipPath].reverse(),
+          clipPath: clipPath,
         },
         {
           duration: 500,
           easing: 'ease-in-out',
           fill: 'forwards',
-          pseudoElement: isDark
-            ? '::view-transition-new(root)'
-            : '::view-transition-old(root)',
+          pseudoElement: '::view-transition-new(root)',
         }
       );
     });
@@ -454,6 +466,13 @@ const AppSidebar = () => {
             id="language-managers"
             title="Language Managers"
             items={languageManagers}
+            pathname={pathname}
+          />
+
+          <CollapsibleSection
+            id="browser-extensions"
+            title="Browser Extensions"
+            items={extensionItems}
             pathname={pathname}
           />
         </SidebarMenu>

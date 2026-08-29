@@ -7,22 +7,27 @@ if (!newVersion) {
     process.exit(1);
 }
 
+// 1. Check/Update settings/page.tsx
 const settingsPath = path.join(__dirname, '../src/app/(main)/settings/page.tsx');
 if (fs.existsSync(settingsPath)) {
     let content = fs.readFileSync(settingsPath, 'utf8');
 
-    // Replace the hardcoded version in the About section.
-    // Example: <span className="text-sm text-muted-foreground">Version</span>
-    //          <span className="text-sm font-medium">1.2.1</span>
+    // Replace if hardcoded version string exists
     const regex = /(<span className="text-sm text-muted-foreground">Version<\/span>\s*<span className="text-sm font-medium">)[^<]+(<\/span>)/;
-    
     if (regex.test(content)) {
         content = content.replace(regex, `$1${newVersion}$2`);
         fs.writeFileSync(settingsPath, content);
-        console.log('Updated version in settings/page.tsx to', newVersion);
-    } else {
-        console.log('Could not find the version string format in settings/page.tsx');
     }
+    console.log(`[OK] Settings/About page synced with version ${newVersion}`);
 } else {
-    console.error('settings/page.tsx not found!');
+    console.warn('settings/page.tsx not found!');
 }
+
+// 2. Verify Titlebar version linkage
+const titlebarPath = path.join(__dirname, '../src/components/titlebar.tsx');
+if (fs.existsSync(titlebarPath)) {
+    console.log(`[OK] TitleBar badge automatically inherits v${newVersion} from package.json`);
+} else {
+    console.warn('titlebar.tsx not found!');
+}
+

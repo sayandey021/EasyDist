@@ -38,6 +38,9 @@ export const PlatformLogos: Record<string, string> = {
     'AltStore': '/logos/altstore.png',
     'OpenAPK': '/logos/openapk.png',
     'Obtainium': '/logos/obtainium.png',
+    'Xiaomi GetApps': '/logos/xiaomi-getapps.svg',
+    'OPPO App Market': '/logos/oppo-market.svg',
+    'Vivo V-Appstore': '/logos/vivo-appstore.svg',
     'IzzyOnDroid': '/logos/izzyondroid.png',
     'Belberi': '/logos/belberi.png',
 
@@ -73,6 +76,17 @@ export const PlatformLogos: Record<string, string> = {
     'NuGet': '/logos/nuget-color.svg',
     'Packagist': '/logos/packagist.png',
     'Go': '/logos/go.png',
+
+    // Browser Extensions
+    'Chrome Web Store': '/logos/chrome-web-store.svg',
+    'Firefox Add-ons': '/logos/firefox-addons.svg',
+    'Edge Add-ons': '/logos/edge-addons.svg',
+    'Microsoft Edge Add-ons': '/logos/edge-addons.svg',
+    'Opera Add-ons': '/logos/opera-addons.svg',
+    'Safari Web Extensions': '/logos/safari-extensions.svg',
+    'Greasy Fork': '/logos/greasyfork.svg',
+    'OpenUserJS': '/logos/openuserjs.svg',
+    'Naver Whale': '/logos/naver-whale.svg',
 };
 
 // Component that renders platform logo as PNG image

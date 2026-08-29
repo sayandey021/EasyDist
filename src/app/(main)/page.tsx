@@ -239,6 +239,27 @@ const commercialPlatforms = [
     icon: getPlatformIcon('AltStore'),
     tags: ['Free', 'Software', 'iOS', 'EU Only'],
   },
+  {
+    name: 'Xiaomi GetApps',
+    description: 'Official app store preloaded on Xiaomi, Redmi, and POCO devices.',
+    href: '/xiaomi-getapps',
+    icon: getPlatformIcon('Xiaomi GetApps'),
+    tags: ['Free', 'Software', 'Games', 'Android'],
+  },
+  {
+    name: 'OPPO App Market',
+    description: 'Distribute apps across OPPO, OnePlus, and Realme devices.',
+    href: '/oppo-market',
+    icon: getPlatformIcon('OPPO App Market'),
+    tags: ['Free', 'Software', 'Games', 'Android'],
+  },
+  {
+    name: 'Vivo V-Appstore',
+    description: 'Official app marketplace for vivo and iQOO devices worldwide.',
+    href: '/vivo-appstore',
+    icon: getPlatformIcon('Vivo V-Appstore'),
+    tags: ['Free', 'Software', 'Games', 'Android'],
+  },
 ];
 
 // Gaming platforms for Games tab
@@ -440,6 +461,65 @@ const languagePlatforms = [
   },
 ];
 
+const browserExtensionPlatforms = [
+  {
+    name: 'Chrome Web Store',
+    description: 'The premier marketplace for Google Chrome and Chromium browser extensions.',
+    href: '/chrome-web-store',
+    icon: getPlatformIcon('Chrome Web Store'),
+    tags: ['Paid ($5 one-time)', 'WebExtensions', 'Manifest V3', 'Chromium'],
+  },
+  {
+    name: 'Firefox Add-ons',
+    description: 'Official add-on directory for Mozilla Firefox Desktop and Android.',
+    href: '/firefox-addons',
+    icon: getPlatformIcon('Firefox Add-ons'),
+    tags: ['Free', 'WebExtensions', 'Gecko', 'Open Source'],
+  },
+  {
+    name: 'Edge Add-ons',
+    description: 'Distribute extensions to millions of Microsoft Edge users on Windows and macOS.',
+    href: '/edge-addons',
+    icon: getPlatformIcon('Edge Add-ons'),
+    tags: ['Free', 'WebExtensions', 'Manifest V3', 'Microsoft Partner'],
+  },
+  {
+    name: 'Opera Add-ons',
+    description: 'Publish add-ons and sidebar tools for Opera One and Opera GX browsers.',
+    href: '/opera-addons',
+    icon: getPlatformIcon('Opera Add-ons'),
+    tags: ['Free', 'WebExtensions', 'Sidebar', 'Gaming'],
+  },
+  {
+    name: 'Safari Web Extensions',
+    description: 'Package and distribute extensions for Safari across macOS, iOS, and iPadOS.',
+    href: '/safari-extensions',
+    icon: getPlatformIcon('Safari Web Extensions'),
+    tags: ['$99/year', 'WebExtensions', 'WebKit', 'macOS', 'iOS'],
+  },
+  {
+    name: 'Greasy Fork',
+    description: 'The premier global repository for user scripts running on Tampermonkey, Violentmonkey, and Greasemonkey.',
+    href: '/greasy-fork',
+    icon: getPlatformIcon('Greasy Fork'),
+    tags: ['Free', 'User Scripts', 'JavaScript', 'Open Source', 'Cross-Browser'],
+  },
+  {
+    name: 'OpenUserJS',
+    description: 'Open-source, community-driven user script repository with automated GitHub sync.',
+    href: '/openuserjs',
+    icon: getPlatformIcon('OpenUserJS'),
+    tags: ['Free', 'User Scripts', 'JavaScript', 'Open Source', 'GitHub Sync'],
+  },
+  {
+    name: 'Naver Whale',
+    description: 'Official extension marketplace for Naver Whale browser with custom sidebar and dual tab support.',
+    href: '/naver-whale',
+    icon: getPlatformIcon('Naver Whale'),
+    tags: ['Free', 'WebExtensions', 'Manifest V3', 'Chromium', 'Sidebar'],
+  },
+];
+
 type ToolItem = {
   name: string;
   description: string;
@@ -565,33 +645,60 @@ const ToolDisplay = memo(function ToolDisplay({
   );
 });
 
-// Hero section with optimized image loading
+// Hero section with dynamic light/dark mode images and smooth animated transition
 const HeroSection = memo(function HeroSection() {
-  const heroImage = PlaceHolderImages.find(
-    (img) => img.id === 'dashboard-hero'
+  const darkHeroImage = PlaceHolderImages.find(
+    (img) => img.id === 'dashboard-hero-dark' || img.id === 'dashboard-hero'
+  );
+  const lightHeroImage = PlaceHolderImages.find(
+    (img) => img.id === 'dashboard-hero-light'
   );
 
   return (
-    <Card className="overflow-hidden">
-      <div className="relative h-48 w-full md:h-64">
-        {heroImage && (
-          <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
-            fill
-            className="object-cover"
-            priority={true}
-            loading="eager"
-            sizes="100vw"
-            data-ai-hint={heroImage.imageHint}
-          />
+    <Card className="overflow-hidden relative group border-border/50 shadow-md">
+      <div className="relative h-48 w-full md:h-64 overflow-hidden">
+        {/* Light Mode Hero Image with Smooth Cross-fade & Scale Switch Animation */}
+        {lightHeroImage && (
+          <div className="absolute inset-0 transition-all duration-700 ease-in-out opacity-100 dark:opacity-0 scale-100 dark:scale-105 pointer-events-none">
+            <Image
+              src={lightHeroImage.imageUrl}
+              alt={lightHeroImage.description}
+              fill
+              className="object-cover"
+              priority={true}
+              loading="eager"
+              sizes="100vw"
+              data-ai-hint={lightHeroImage.imageHint}
+            />
+          </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-        <div className="absolute bottom-0 left-0 p-6">
-          <h1 className="text-3xl font-bold text-white md:text-4xl">
+
+        {/* Dark Mode Hero Image with Smooth Cross-fade & Scale Switch Animation */}
+        {darkHeroImage && (
+          <div className="absolute inset-0 transition-all duration-700 ease-in-out opacity-0 dark:opacity-100 scale-105 dark:scale-100 pointer-events-none">
+            <Image
+              src={darkHeroImage.imageUrl}
+              alt={darkHeroImage.description}
+              fill
+              className="object-cover"
+              priority={true}
+              loading="eager"
+              sizes="100vw"
+              data-ai-hint={darkHeroImage.imageHint}
+            />
+          </div>
+        )}
+
+        {/* Dynamic Theme-Aware Gradient Overlays for optimal contrast & smooth morph */}
+        <div className="absolute inset-0 bg-gradient-to-t from-white/90 via-white/40 to-transparent dark:opacity-0 opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/45 to-transparent opacity-0 dark:opacity-100 transition-opacity duration-700 ease-in-out pointer-events-none" />
+
+        {/* Hero Content */}
+        <div className="absolute bottom-0 left-0 p-6 z-10">
+          <h1 className="text-3xl font-bold text-slate-900 dark:text-white md:text-4xl transition-colors duration-500 tracking-tight drop-shadow-sm">
             Distribution Accelerator
           </h1>
-          <p className="mt-2 text-lg text-white/90">
+          <p className="mt-2 text-lg text-slate-700 dark:text-white/90 transition-colors duration-500 max-w-xl font-medium">
             Simplify and accelerate your software distribution.
           </p>
         </div>
@@ -712,7 +819,7 @@ const excludedFilterTags = [
 // Excludes certain tags from the filter while keeping them on the cards
 const allTags = (() => {
   const tagSet = new Set<string>();
-  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms, ...sourceControlPlatforms].forEach(tool => {
+  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms, ...sourceControlPlatforms, ...languagePlatforms, ...browserExtensionPlatforms].forEach(tool => {
     tool.tags.forEach(tag => tagSet.add(tag));
   });
   // Filter out excluded tags
@@ -803,6 +910,7 @@ export default function DashboardPage() {
   const filteredGaming = useMemo(() => filterTools(gamingPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredSourceControl = useMemo(() => filterTools(sourceControlPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredLanguagePlatforms = useMemo(() => filterTools(languagePlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
+  const filteredExtensions = useMemo(() => filterTools(browserExtensionPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
 
   // Check if any results exist
   const hasResults = filteredOpenSource.length > 0 ||
@@ -810,7 +918,8 @@ export default function DashboardPage() {
     filteredCommercial.length > 0 ||
     filteredGaming.length > 0 ||
     filteredSourceControl.length > 0 ||
-    filteredLanguagePlatforms.length > 0;
+    filteredLanguagePlatforms.length > 0 ||
+    filteredExtensions.length > 0;
 
   // Check if any filters are active
   const hasActiveFilters = searchQuery.trim() !== '' || selectedTags.length > 0;
@@ -824,14 +933,77 @@ export default function DashboardPage() {
         <div className="flex flex-col gap-4 mb-4">
           <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-3 min-w-0 max-w-full">
-              <TabsList className="flex flex-nowrap justify-start overflow-x-auto overflow-y-hidden min-w-0 [&::-webkit-scrollbar]:hidden">
-                <TabsTrigger value="all">All</TabsTrigger>
-                <TabsTrigger value="open-source">Open Source</TabsTrigger>
-                <TabsTrigger value="closed-source">Closed Source</TabsTrigger>
-                <TabsTrigger value="commercial">Commercial</TabsTrigger>
-                <TabsTrigger value="games">Games</TabsTrigger>
-                <TabsTrigger value="source-control">Source Control</TabsTrigger>
-                <TabsTrigger value="language-managers">Language Managers</TabsTrigger>
+              <TabsList className="flex flex-nowrap justify-start overflow-x-auto overflow-y-hidden min-w-0 h-auto min-h-10 p-1 gap-1 [&::-webkit-scrollbar]:hidden">
+                <TabsTrigger
+                  value="all"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2.5 sm:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  All
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="open-source"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2 sm:px-2.5 xl:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  <span className="flex flex-col xl:flex-row items-center justify-center leading-tight xl:leading-normal xl:gap-1 text-center">
+                    <span>Open</span>
+                    <span>Source</span>
+                  </span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="closed-source"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2 sm:px-2.5 xl:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  <span className="flex flex-col xl:flex-row items-center justify-center leading-tight xl:leading-normal xl:gap-1 text-center">
+                    <span>Closed</span>
+                    <span>Source</span>
+                  </span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="commercial"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2.5 sm:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  Commercial
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="games"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2.5 sm:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  Games
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="source-control"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2 sm:px-2.5 xl:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  <span className="flex flex-col xl:flex-row items-center justify-center leading-tight xl:leading-normal xl:gap-1 text-center">
+                    <span>Source</span>
+                    <span>Control</span>
+                  </span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="language-managers"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2 sm:px-2.5 xl:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  <span className="flex flex-col xl:flex-row items-center justify-center leading-tight xl:leading-normal xl:gap-1 text-center">
+                    <span>Language</span>
+                    <span>Managers</span>
+                  </span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="extensions"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2 sm:px-2.5 xl:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  <span className="flex flex-col xl:flex-row items-center justify-center leading-tight xl:leading-normal xl:gap-1 text-center">
+                    <span>Browser</span>
+                    <span>Extensions</span>
+                  </span>
+                </TabsTrigger>
               </TabsList>
             </div>
 
@@ -915,6 +1087,9 @@ export default function DashboardPage() {
               {filteredLanguagePlatforms.length > 0 && (
                 <Section title="Language Package Managers" tools={filteredLanguagePlatforms} viewMode={viewMode} />
               )}
+              {filteredExtensions.length > 0 && (
+                <Section title="Browser Extensions" tools={filteredExtensions} viewMode={viewMode} />
+              )}
             </div>
           )}
         </TabsContent>
@@ -975,6 +1150,16 @@ export default function DashboardPage() {
           ) : searchQuery ? (
             <div className="text-center py-8 text-muted-foreground">
               No language package managers match &quot;{searchQuery}&quot;
+            </div>
+          ) : null}
+        </TabsContent>
+
+        <TabsContent value="extensions" className="mt-6 space-y-6">
+          {filteredExtensions.length > 0 ? (
+            <Section title="Browser Extensions" tools={filteredExtensions} viewMode={viewMode} />
+          ) : searchQuery ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No browser extension platforms match &quot;{searchQuery}&quot;
             </div>
           ) : null}
         </TabsContent>

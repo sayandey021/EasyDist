@@ -27,6 +27,7 @@
     --ring: 212 100% 45%;
     --radius: 0.5rem;
     /* Win11 uses slightly rounded corners */
+    --titlebar-height: 40px;
 
     /* Fluent UI Specifics */
     --sidebar-background: 0 0% 96% / 0.8;
@@ -67,6 +68,11 @@
 }
 
 @layer base {
+  html,
+  body {
+    @apply h-full overflow-hidden;
+  }
+
   body {
     @apply bg-background text-foreground select-none;
     font-family: var(--font-inter), 'Segoe UI Variable', 'Segoe UI', system-ui, -apple-system, sans-serif;
@@ -252,16 +258,20 @@
   mix-blend-mode: normal;
 }
 
-.dark::view-transition-old(root) {
+::view-transition-old(root) {
   z-index: 1;
-}
-.dark::view-transition-new(root) {
-  z-index: 2;
 }
 
-:root:not(.dark)::view-transition-old(root) {
-  z-index: 2;
+::view-transition-new(root) {
+  z-index: 9999;
 }
-:root:not(.dark)::view-transition-new(root) {
-  z-index: 1;
+
+/* Electron App Window Drag Regions */
+.app-drag-region {
+  -webkit-app-region: drag;
+  user-select: none;
+}
+
+.app-no-drag {
+  -webkit-app-region: no-drag;
 }

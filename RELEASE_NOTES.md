@@ -1,3 +1,72 @@
+# EasyDist v1.5.0 Release Notes
+
+**Release Date:** August 29, 2026
+
+We are excited to announce the release of **EasyDist v1.5.0**! This major release introduces a brand new category of distribution storefronts: **Browser Extension Stores**, bringing complete guides, vector branding, and publishing workflows for the world's leading browser extension marketplaces.
+
+## 🚀 New Features
+
+### Browser Extension Stores (New Category)
+*   **New Storefront Category:** Added dedicated **Browser Extensions** tab and sidebar navigation supporting the world's leading web browser add-on marketplaces.
+*   **Chrome Web Store:** Full guide for Manifest V3, $5 developer fee, Chromium ecosystem reach (Chrome, Brave, Arc, Vivaldi), and CWS Developer Dashboard links.
+*   **Firefox Add-ons (AMO):** Complete documentation for WebExtensions API, free registration, automated signing tools (`web-ext`), and Firefox for Android extension support.
+*   **Edge Add-ons:** Dedicated guide for Edge Partner Center publishing, free registration, and 1-click Chrome Web Store import tools.
+*   **Opera Add-ons:** Guide covering Opera One and Opera GX gaming browser extension publishing, Sidebar Action APIs, and developer portals.
+*   **Safari Web Extensions:** Comprehensive guide for Apple Safari extension packaging (`safari-web-extension-converter`), Xcode app wrapping, and universal macOS/iOS/iPadOS/visionOS distribution.
+*   **Greasy Fork Integration:** Complete publishing guide for the world's leading user script repository, Tampermonkey/Violentmonkey integration, and automated GitHub sync.
+*   **OpenUserJS Integration:** Guide for open-source userscript distribution, GitHub/Gist synchronization, and collaborative script issue tracking.
+*   **Naver Whale Store:** Dedicated guide for Naver Whale extensions, custom Sidebar Action APIs, dual tab support, and Asian Chromium market distribution.
+*   **Custom Vector Assets:** Designed and integrated high-resolution SVG logos for all 8 browser extension and script marketplaces.
+
+## 🎨 UI & UX Improvements
+
+### Responsive Multi-Word Category Tabs
+*   **Dynamic Two-Line Stacking:** Optimized the category navigation tabs bar for smaller window widths. Multi-word platform tabs (e.g. *Open Source*, *Closed Source*, *Source Control*, *Language Managers*, *Browser Extensions*) automatically stack their words vertically top-and-bottom to conserve horizontal footprint, preventing tab overflow and truncation on compact window sizes.
+
+---
+
+# EasyDist v1.4.5 Release Notes
+
+**Release Date:** August 29, 2026
+
+We are excited to announce the release of **EasyDist v1.4.5**! This update introduces major new commercial OEM app stores to EasyDist, along with a newly redesigned, animated light/dark mode hero experience.
+
+## 🚀 New Features
+
+### Xiaomi GetApps Integration
+*   Added full distribution documentation and guide for **Xiaomi GetApps** (HyperOS & MIUI).
+*   Direct access to the Xiaomi Global Developer Console (`global.developer.mi.com`), Submission Guide, and Developer Support.
+*   Comprehensive details on zero-fee developer registration, 70/30 revenue share model, and device coverage (Xiaomi, Redmi, POCO).
+*   Added custom high-resolution SVG logo.
+
+### OPPO App Market Integration
+*   Added complete distribution documentation and guide for **OPPO App Market**.
+*   Direct links to the OPPO Open Platform (`open.oppomobile.com`), Global Developer Portal, and development documentation.
+*   Covers publishing workflows for ColorOS, OxygenOS, and Realme UI across OPPO, OnePlus, and Realme devices.
+*   Added custom high-resolution SVG logo.
+
+### Vivo V-Appstore Integration
+*   Added full distribution overview and guide for **Vivo V-Appstore**.
+*   Direct links to the vivo Developer Platform (`developer.vivo.com`), Developer Documentation, and Customer Service support.
+*   Covers publishing guidelines for Funtouch OS and OriginOS across vivo and iQOO smartphones and devices.
+*   Added custom high-resolution SVG logo.
+
+## 🎨 UI & UX Improvements
+
+### Dynamic Light & Dark Mode Hero Banner
+*   **Theme-Aware Hero Assets:** The dashboard hero banner now features dedicated, high-resolution visuals tailored specifically for light and dark themes.
+*   **Smooth Switch Animation:** Emulates an animated cross-fade with subtle scale zooming when toggling between light and dark modes.
+*   **Adaptive Gradient Overlays:** Added morphing contrast overlays ensuring optimal typography contrast in both light and dark themes.
+
+### Seamless Theme Transition Wave
+*   **Artifact-Free Ripple Animation:** Enhanced the circular view-transition effect across the TitleBar and Sidebar theme toggles. The transition wave now emanates cleanly from the clicked trigger button in both light and dark directions without clipping artifacts, dark shadow lines, or raster boundary glitches.
+
+### Navigation & Discovery
+*   Integrated all three stores alphabetically into the **Commercial** sidebar group and **TitleBar** breadcrumb resolution.
+*   Added full search querying and tag filtering support for Xiaomi GetApps, OPPO App Market, and Vivo V-Appstore on the Dashboard.
+
+---
+
 # EasyDist v1.4.3 Release Notes
 
 **Release Date:** August 05, 2026

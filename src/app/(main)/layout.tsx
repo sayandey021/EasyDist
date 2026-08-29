@@ -14,10 +14,10 @@ export default function AppLayout({ children }: { children: ReactNode }) {
         <AppSidebar />
       </Sidebar>
       <SidebarInset>
-        <main className="min-h-svh p-4 lg:p-6">
+        <div className="p-4 lg:p-6">
           <BackButton />
           {children}
-        </main>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

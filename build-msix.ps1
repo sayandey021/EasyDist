@@ -52,37 +52,57 @@ New-Item -ItemType Directory -Path (Join-Path $AppxContentPath "assets") -Force 
 Write-Host "Copying application files..."
 Copy-Item (Join-Path $WinUnpackedPath "*") (Join-Path $AppxContentPath "app") -Recurse -Force
 
-# Step 3: Copy assets from existing icons
-Write-Host "Copying assets..."
+# Step 3: Copy assets and generate complete Store asset set
+Write-Host "Copying and generating assets..."
 $AssetsSource = Join-Path $ProjectPath "build\appx"
 $AssetsDest = Join-Path $AppxContentPath "assets"
 
 if (Test-Path $AssetsSource) {
     Copy-Item (Join-Path $AssetsSource "*") $AssetsDest -Recurse -Force
 }
-else {
-    # Create placeholder assets from icon.png
-    $iconPath = Join-Path $ProjectPath "icon.png"
-    if (Test-Path $iconPath) {
-        Copy-Item $iconPath (Join-Path $AssetsDest "StoreLogo.png") -Force
-        Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.png") -Force
-        Copy-Item $iconPath (Join-Path $AssetsDest "Square150x150Logo.png") -Force
-        Copy-Item $iconPath (Join-Path $AssetsDest "Wide310x150Logo.png") -Force
-        
-        # Add targetsize icons for taskbar (unplated ensures Windows doesn't shrink it into a background plate)
-        # We only copy the 256 size to save space. Windows will automatically scale this down for smaller sizes.
-        $TargetSizes = @("256")
-        foreach ($size in $TargetSizes) {
-            Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size.png") -Force
-            Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size`_altform-unplated.png") -Force
+
+# Ensure all standard Store & Windows required asset sizes exist
+$iconPath = Join-Path $ProjectPath "icon.png"
+if (Test-Path $iconPath) {
+    $BaseAssets = @("StoreLogo.png", "Square44x44Logo.png", "Square150x150Logo.png", "Wide310x150Logo.png", "SplashScreen.png")
+    foreach ($asset in $BaseAssets) {
+        $destFile = Join-Path $AssetsDest $asset
+        if (-not (Test-Path $destFile)) {
+            Copy-Item $iconPath $destFile -Force
         }
+    }
+    
+    # Scale variants
+    $Scales = @("100", "200", "400")
+    foreach ($scale in $Scales) {
+        Copy-Item $iconPath (Join-Path $AssetsDest "StoreLogo.scale-$scale.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.scale-$scale.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "Square150x150Logo.scale-$scale.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "Wide310x150Logo.scale-$scale.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "SplashScreen.scale-$scale.png") -Force
+    }
+
+    # Targetsize & unplated variants for taskbar, start menu, and app list
+    $TargetSizes = @("16", "24", "32", "48", "256")
+    foreach ($size in $TargetSizes) {
+        Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.targetsize-$size`_altform-unplated.png") -Force
+        Copy-Item $iconPath (Join-Path $AssetsDest "Square44x44Logo.altform-unplated_targetsize-$size.png") -Force
     }
 }
 
-# Step 4: Create AppxManifest.xml
+# Step 4: Create AppxManifest.xml with full schema compliance
 Write-Host "`n[4/6] Creating AppxManifest.xml..." -ForegroundColor Yellow
-$Version = (Get-Content (Join-Path $ProjectPath "package.json") | ConvertFrom-Json).version
+$PkgJson = Get-Content (Join-Path $ProjectPath "package.json") | ConvertFrom-Json
+$Version = $PkgJson.version
 $AppVersion = "$Version.0"
+
+# Read identity settings from package.json or use defaults
+$IdentityName = if ($PkgJson.build.appx.identityName) { $PkgJson.build.appx.identityName } else { "Saayan.EasyDist" }
+$Publisher = if ($PkgJson.build.appx.publisher) { $PkgJson.build.appx.publisher } else { "CN=37E2AF47-D2FC-489C-BDC1-02C989A7B989" }
+$PublisherDisplayName = if ($PkgJson.build.appx.publisherDisplayName) { $PkgJson.build.appx.publisherDisplayName } else { "Saayan" }
+$DisplayName = if ($PkgJson.build.appx.displayName) { $PkgJson.build.appx.displayName } else { "EasyDist" }
+$AppId = if ($PkgJson.build.appx.applicationId) { $PkgJson.build.appx.applicationId } else { "EasyDist" }
 
 $ManifestContent = @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -90,14 +110,15 @@ $ManifestContent = @"
    xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
    xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
    xmlns:desktop="http://schemas.microsoft.com/appx/manifest/desktop/windows10"
-   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities">
-  <Identity Name="Saayan.EasyDist"
+   xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+   IgnorableNamespaces="uap desktop rescap">
+  <Identity Name="$IdentityName"
     ProcessorArchitecture="x64"
-    Publisher="CN=37E2AF47-D2FC-489C-BDC1-02C989A7B989"
+    Publisher="$Publisher"
     Version="$AppVersion" />
   <Properties>
-    <DisplayName>EasyDist</DisplayName>
-    <PublisherDisplayName>Saayan</PublisherDisplayName>
+    <DisplayName>$DisplayName</DisplayName>
+    <PublisherDisplayName>$PublisherDisplayName</PublisherDisplayName>
     <Description>EasyDist - Distribution Helper Tool</Description>
     <Logo>assets\StoreLogo.png</Logo>
   </Properties>
@@ -105,16 +126,16 @@ $ManifestContent = @"
     <Resource Language="en-US" />
   </Resources>
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.22621.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.17763.0" MaxVersionTested="10.0.26100.0" />
   </Dependencies>
   <Capabilities>
     <rescap:Capability Name="runFullTrust"/>
   </Capabilities>
   <Applications>
-    <Application Id="EasyDist" Executable="app\EasyDist.exe" EntryPoint="Windows.FullTrustApplication">
+    <Application Id="$AppId" Executable="app\EasyDist.exe" EntryPoint="Windows.FullTrustApplication">
       <uap:VisualElements
        BackgroundColor="#1f1f23"
-       DisplayName="EasyDist"
+       DisplayName="$DisplayName"
        Square150x150Logo="assets\Square150x150Logo.png"
        Square44x44Logo="assets\Square44x44Logo.png"
        Description="EasyDist - Distribution Helper Tool">
@@ -124,6 +145,7 @@ $ManifestContent = @"
             <uap:ShowOn Tile="square150x150Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
+        <uap:SplashScreen Image="assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
@@ -178,13 +200,13 @@ $PriConfigContent | Out-File -FilePath $PriConfigPath -Encoding utf8
 
 $ResourcesPriOutput = Join-Path $AppxContentPath "resources.pri"
 
-& $MakePriPath new /Overwrite /Manifest $ManifestPath /ProjectRoot $AppxContentPath /ConfigXml $PriConfigPath /OutputFile $ResourcesPriOutput /IndexName "EasyDist"
+& $MakePriPath new /Overwrite /Manifest $ManifestPath /ProjectRoot $AppxContentPath /ConfigXml $PriConfigPath /OutputFile $ResourcesPriOutput /IndexName $IdentityName
 
 if ($LASTEXITCODE -ne 0) {
     Write-Warning "makepri.exe returned non-zero exit code, but continuing..."
 }
 
-# Step 6: Create MSIX package
+# Step 6: Create MSIX package with validation enabled
 Write-Host "`n[6/6] Creating MSIX package..." -ForegroundColor Yellow
 $MakeAppxPath = Join-Path $WinSDKPath "makeappx.exe"
 $MsixOutput = Join-Path $DistPath "EasyDist $Version.msix"
@@ -199,7 +221,7 @@ if (Test-Path $MsixOutput) {
     Remove-Item $MsixOutput -Force
 }
 
-& $MakeAppxPath pack /d $AppxContentPath /p $MsixOutput /o /nv
+& $MakeAppxPath pack /d $AppxContentPath /p $MsixOutput /o
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "makeappx.exe failed"
@@ -214,5 +236,6 @@ Get-ChildItem -Path $DistPath | Where-Object {
 
 Write-Host "`n=== Build Complete! ===" -ForegroundColor Green
 Write-Host "MSIX Package: $MsixOutput" -ForegroundColor Cyan
-Write-Host "`nNote: The MSIX is not signed. For Microsoft Store submission," -ForegroundColor Yellow
-Write-Host "the Store will sign it automatically when you upload." -ForegroundColor Yellow
+Write-Host "`nNote: The MSIX is ready for Microsoft Store submission." -ForegroundColor Yellow
+Write-Host "The Store will automatically sign and distribute the package upon submission approval." -ForegroundColor Yellow
+
