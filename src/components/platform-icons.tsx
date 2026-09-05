@@ -87,6 +87,16 @@ export const PlatformLogos: Record<string, string> = {
     'Greasy Fork': '/logos/greasyfork.svg',
     'OpenUserJS': '/logos/openuserjs.svg',
     'Naver Whale': '/logos/naver-whale.svg',
+
+    // Other Marketplaces (IDE, Tools, Developer Ecosystems)
+    'VS Code Marketplace': '/logos/vscode.svg',
+    'JetBrains Marketplace': '/logos/jetbrains.svg',
+    'Open VSX Registry': '/logos/open-vsx.svg',
+    'Package Control': '/logos/package-control.svg',
+    'Eclipse Marketplace': '/logos/eclipse.svg',
+    'Obsidian Plugins': '/logos/obsidian.svg',
+    'Raycast Store': '/logos/raycast.svg',
+    'Figma Community': '/logos/figma.svg',
 };
 
 // Component that renders platform logo as PNG image

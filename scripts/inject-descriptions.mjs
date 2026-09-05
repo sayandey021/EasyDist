@@ -66,7 +66,15 @@ const descriptions = {
     'vivo-appstore': 'The official application store preloaded on all vivo and iQOO devices running Funtouch OS and OriginOS worldwide.',
     'winget': 'The official Windows Package Manager CLI. It empowers users to quickly discover, install, upgrade, and configure applications directly from the Windows command line.',
     'xiaomi-getapps': 'The official application store for Xiaomi, Redmi, and POCO smartphones and tablets running Xiaomi HyperOS and MIUI.',
-    'xbox': 'The digital storefront for the Xbox ecosystem and PC Game Pass. It integrates closely with Windows to deliver a massive catalog of high-quality games, DLC, and multiplayer services.'
+    'xbox': 'The digital storefront for the Xbox ecosystem and PC Game Pass. It integrates closely with Windows to deliver a massive catalog of high-quality games, DLC, and multiplayer services.',
+    'vscode-marketplace': 'The official extension marketplace for Visual Studio Code, Azure DevOps, and the VS Code family of editors.',
+    'jetbrains-marketplace': 'The official plugin repository and marketplace for IntelliJ IDEA, PyCharm, WebStorm, Android Studio, and all JetBrains IDEs.',
+    'open-vsx': 'The open-source, vendor-neutral extension registry managed by the Eclipse Foundation for VSCodium, Gitpod, Theia, and open IDEs.',
+    'package-control': 'The default package manager and repository for Sublime Text plugins, syntax definitions, and themes.',
+    'eclipse-marketplace': 'The central discovery portal for Eclipse IDE plugins, tools, and Rich Client Platform (RCP) applications.',
+    'obsidian-plugins': 'The official community plugin marketplace for Obsidian, the privacy-first markdown knowledge base.',
+    'raycast-store': 'The official extension marketplace for Raycast, the lightning-fast, keyboard-driven productivity launcher.',
+    'figma-community': 'The premier marketplace for Figma and FigJam plugins, interactive widgets, UI kits, and design systems.'
 };
 
 const MAIN_DIR = 'src/app/(main)';

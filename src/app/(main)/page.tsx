@@ -520,6 +520,65 @@ const browserExtensionPlatforms = [
   },
 ];
 
+const otherPlatforms = [
+  {
+    name: 'VS Code Marketplace',
+    description: 'The official marketplace for Visual Studio Code extensions, themes, and language packs.',
+    href: '/vscode-marketplace',
+    icon: getPlatformIcon('VS Code Marketplace'),
+    tags: ['Free', 'IDE', 'Extensions', 'Developer Tools', 'Cross-Platform'],
+  },
+  {
+    name: 'JetBrains Marketplace',
+    description: 'Plugin repository and marketplace for IntelliJ IDEA, PyCharm, WebStorm, Android Studio, and more.',
+    href: '/jetbrains-marketplace',
+    icon: getPlatformIcon('JetBrains Marketplace'),
+    tags: ['Free / Paid', 'IDE', 'Plugins', 'JVM', 'Cross-Platform'],
+  },
+  {
+    name: 'Open VSX Registry',
+    description: 'Open-source, vendor-neutral alternative to VS Code Marketplace by the Eclipse Foundation.',
+    href: '/open-vsx',
+    icon: getPlatformIcon('Open VSX Registry'),
+    tags: ['Free', 'Open Source', 'IDE', 'Extensions', 'Eclipse'],
+  },
+  {
+    name: 'Package Control',
+    description: 'The defacto package manager and repository for Sublime Text plugins and themes.',
+    href: '/package-control',
+    icon: getPlatformIcon('Package Control'),
+    tags: ['Free', 'Open Source', 'Editor', 'Python', 'Cross-Platform'],
+  },
+  {
+    name: 'Eclipse Marketplace',
+    description: 'Central portal for Eclipse IDE plugins, tools, and Rich Client Platform (RCP) solutions.',
+    href: '/eclipse-marketplace',
+    icon: getPlatformIcon('Eclipse Marketplace'),
+    tags: ['Free', 'Open Source', 'IDE', 'Java', 'Cross-Platform'],
+  },
+  {
+    name: 'Obsidian Plugins',
+    description: 'Community plugin marketplace and directory for Obsidian markdown knowledge base.',
+    href: '/obsidian-plugins',
+    icon: getPlatformIcon('Obsidian Plugins'),
+    tags: ['Free', 'Open Source', 'PKM', 'Markdown', 'Cross-Platform'],
+  },
+  {
+    name: 'Raycast Store',
+    description: 'Extension store for Raycast, the fast and extensible productivity launcher.',
+    href: '/raycast-store',
+    icon: getPlatformIcon('Raycast Store'),
+    tags: ['Free', 'Productivity', 'React', 'TypeScript', 'macOS', 'Windows'],
+  },
+  {
+    name: 'Figma Community',
+    description: 'Discover and publish plugins, widgets, and templates for Figma and FigJam.',
+    href: '/figma-community',
+    icon: getPlatformIcon('Figma Community'),
+    tags: ['Free / Paid', 'Design', 'Plugins', 'Web', 'Widgets'],
+  },
+];
+
 type ToolItem = {
   name: string;
   description: string;
@@ -819,7 +878,7 @@ const excludedFilterTags = [
 // Excludes certain tags from the filter while keeping them on the cards
 const allTags = (() => {
   const tagSet = new Set<string>();
-  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms, ...sourceControlPlatforms, ...languagePlatforms, ...browserExtensionPlatforms].forEach(tool => {
+  [...openSourceTools, ...proprietaryTools, ...commercialPlatforms, ...gamingPlatforms, ...sourceControlPlatforms, ...languagePlatforms, ...browserExtensionPlatforms, ...otherPlatforms].forEach(tool => {
     tool.tags.forEach(tag => tagSet.add(tag));
   });
   // Filter out excluded tags
@@ -911,6 +970,7 @@ export default function DashboardPage() {
   const filteredSourceControl = useMemo(() => filterTools(sourceControlPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredLanguagePlatforms = useMemo(() => filterTools(languagePlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
   const filteredExtensions = useMemo(() => filterTools(browserExtensionPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
+  const filteredOther = useMemo(() => filterTools(otherPlatforms, searchQuery, selectedTags), [searchQuery, selectedTags]);
 
   // Check if any results exist
   const hasResults = filteredOpenSource.length > 0 ||
@@ -919,7 +979,8 @@ export default function DashboardPage() {
     filteredGaming.length > 0 ||
     filteredSourceControl.length > 0 ||
     filteredLanguagePlatforms.length > 0 ||
-    filteredExtensions.length > 0;
+    filteredExtensions.length > 0 ||
+    filteredOther.length > 0;
 
   // Check if any filters are active
   const hasActiveFilters = searchQuery.trim() !== '' || selectedTags.length > 0;
@@ -1003,6 +1064,13 @@ export default function DashboardPage() {
                     <span>Browser</span>
                     <span>Extensions</span>
                   </span>
+                </TabsTrigger>
+
+                <TabsTrigger
+                  value="other"
+                  className="h-full min-h-[38px] xl:min-h-[34px] px-2.5 sm:px-3 text-xs xl:text-sm font-medium shrink-0"
+                >
+                  Other
                 </TabsTrigger>
               </TabsList>
             </div>
@@ -1090,6 +1158,9 @@ export default function DashboardPage() {
               {filteredExtensions.length > 0 && (
                 <Section title="Browser Extensions" tools={filteredExtensions} viewMode={viewMode} />
               )}
+              {filteredOther.length > 0 && (
+                <Section title="Other Marketplaces" tools={filteredOther} viewMode={viewMode} />
+              )}
             </div>
           )}
         </TabsContent>
@@ -1160,6 +1231,16 @@ export default function DashboardPage() {
           ) : searchQuery ? (
             <div className="text-center py-8 text-muted-foreground">
               No browser extension platforms match &quot;{searchQuery}&quot;
+            </div>
+          ) : null}
+        </TabsContent>
+
+        <TabsContent value="other" className="mt-6 space-y-6">
+          {filteredOther.length > 0 ? (
+            <Section title="Other Marketplaces" tools={filteredOther} viewMode={viewMode} />
+          ) : searchQuery ? (
+            <div className="text-center py-8 text-muted-foreground">
+              No other platforms match &quot;{searchQuery}&quot;
             </div>
           ) : null}
         </TabsContent>

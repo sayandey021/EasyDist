@@ -1,3 +1,25 @@
+# EasyDist v1.6.0 Release Notes
+
+**Release Date:** September 6, 2026
+
+We are thrilled to announce **EasyDist v1.6.0**! This major release adds the brand new **Other** storefront category dedicated to developer tooling, IDEs, and productivity extension marketplaces—headlined by **VS Code Marketplace** and **JetBrains Marketplace**.
+
+## 🚀 New Features
+
+### Other Storefronts (New Category)
+*   **New Storefront Category:** Added dedicated **Other** category in the sidebar navigation, titlebar breadcrumbs, and dashboard tabs, connecting developers to the world's most vital code editor and tooling ecosystems.
+*   **VS Code Marketplace:** Complete publishing guide for Visual Studio Code extensions, Microsoft Azure DevOps publisher accounts, Personal Access Tokens (PAT), and the `@vscode/vsce` CLI tool.
+*   **JetBrains Marketplace:** Comprehensive guide for IntelliJ IDEA, PyCharm, WebStorm, Android Studio, and Fleet plugins, covering Gradle IntelliJ Platform Plugin 2.0, verification, and Marketplace Billing monetization.
+*   **Open VSX Registry:** Vendor-neutral, Eclipse Foundation-backed open-source extension registry supporting VSCodium, Gitpod, and Eclipse Theia via the `ovsx` CLI.
+*   **Sublime Text Package Control:** Integration guide for Sublime Text 3 & 4 packages, automated Git tag crawling, and GitHub pull request submissions.
+*   **Eclipse Marketplace:** Complete guide for Eclipse IDE plugins and Eclipse RCP solutions, featuring p2 update site hosting, Eclipse Marketplace Client (MPC), and 1-click drag-and-drop installation.
+*   **Obsidian Community Plugins:** Decentralized publishing workflow for Obsidian markdown plugins with GitHub Releases asset hosting and `obsidian-releases` pull requests.
+*   **Raycast Store:** Full guide for building keyboard-first productivity launcher extensions using React, TypeScript, `@raycast/api`, and monorepo submissions.
+*   **Figma Community:** Publishing workflow for Figma and FigJam plugins, widgets, and design systems, including desktop client publishing and integrated Stripe creator payouts.
+*   **Custom Vector Assets:** Designed and integrated 8 high-resolution SVG logos for all newly supported marketplaces.
+
+---
+
 # EasyDist v1.5.0 Release Notes
 
 **Release Date:** August 29, 2026

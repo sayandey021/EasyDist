@@ -294,6 +294,17 @@ const extensionItems = [
   { href: '/naver-whale', logoPath: PlatformLogos['Naver Whale'], label: 'Naver Whale' },
 ];
 
+const otherItems = [
+  { href: '/eclipse-marketplace', logoPath: PlatformLogos['Eclipse Marketplace'], label: 'Eclipse Marketplace' },
+  { href: '/figma-community', logoPath: PlatformLogos['Figma Community'], label: 'Figma Community' },
+  { href: '/jetbrains-marketplace', logoPath: PlatformLogos['JetBrains Marketplace'], label: 'JetBrains Marketplace' },
+  { href: '/obsidian-plugins', logoPath: PlatformLogos['Obsidian Plugins'], label: 'Obsidian Plugins' },
+  { href: '/open-vsx', logoPath: PlatformLogos['Open VSX Registry'], label: 'Open VSX Registry' },
+  { href: '/package-control', logoPath: PlatformLogos['Package Control'], label: 'Package Control' },
+  { href: '/raycast-store', logoPath: PlatformLogos['Raycast Store'], label: 'Raycast Store' },
+  { href: '/vscode-marketplace', logoPath: PlatformLogos['VS Code Marketplace'], label: 'VS Code Marketplace' },
+];
+
 // Theme toggle component
 const ThemeToggle = memo(function ThemeToggle() {
   const { setTheme, theme } = useTheme();
@@ -473,6 +484,13 @@ const AppSidebar = () => {
             id="browser-extensions"
             title="Browser Extensions"
             items={extensionItems}
+            pathname={pathname}
+          />
+
+          <CollapsibleSection
+            id="other"
+            title="Other"
+            items={otherItems}
             pathname={pathname}
           />
         </SidebarMenu>

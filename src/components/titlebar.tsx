@@ -121,6 +121,16 @@ export const ALL_PLATFORMS: PlatformItem[] = [
   { id: 'greasy-fork', name: 'Greasy Fork', category: 'Browser Extensions', href: '/greasy-fork', logo: PlatformLogos['Greasy Fork'] },
   { id: 'openuserjs', name: 'OpenUserJS', category: 'Browser Extensions', href: '/openuserjs', logo: PlatformLogos['OpenUserJS'] },
   { id: 'naver-whale', name: 'Naver Whale', category: 'Browser Extensions', href: '/naver-whale', logo: PlatformLogos['Naver Whale'] },
+
+  // Other (IDE & Developer Ecosystems)
+  { id: 'vscode-marketplace', name: 'VS Code Marketplace', category: 'Other', href: '/vscode-marketplace', logo: PlatformLogos['VS Code Marketplace'] },
+  { id: 'jetbrains-marketplace', name: 'JetBrains Marketplace', category: 'Other', href: '/jetbrains-marketplace', logo: PlatformLogos['JetBrains Marketplace'] },
+  { id: 'open-vsx', name: 'Open VSX Registry', category: 'Other', href: '/open-vsx', logo: PlatformLogos['Open VSX Registry'] },
+  { id: 'package-control', name: 'Package Control', category: 'Other', href: '/package-control', logo: PlatformLogos['Package Control'] },
+  { id: 'eclipse-marketplace', name: 'Eclipse Marketplace', category: 'Other', href: '/eclipse-marketplace', logo: PlatformLogos['Eclipse Marketplace'] },
+  { id: 'obsidian-plugins', name: 'Obsidian Plugins', category: 'Other', href: '/obsidian-plugins', logo: PlatformLogos['Obsidian Plugins'] },
+  { id: 'raycast-store', name: 'Raycast Store', category: 'Other', href: '/raycast-store', logo: PlatformLogos['Raycast Store'] },
+  { id: 'figma-community', name: 'Figma Community', category: 'Other', href: '/figma-community', logo: PlatformLogos['Figma Community'] },
 ];
 
 // Helper to look up active route details
