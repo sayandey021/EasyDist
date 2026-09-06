@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { ExitDialog } from "@/components/exit-dialog"
+import { onShowExitDialog, confirmExit, cancelExit } from "@/lib/desktop"
 
 interface ExitDialogContextType {
     showExitDialog: () => void
@@ -19,67 +20,26 @@ export function useExitDialog() {
 
 export function ExitDialogProvider({ children }: { children: React.ReactNode }) {
     const [isOpen, setIsOpen] = React.useState(false)
-    const [isElectron, setIsElectron] = React.useState(false)
 
     React.useEffect(() => {
-        // Check if running in Electron
-        const electronCheck = typeof window !== 'undefined' &&
-            typeof (window as any).require !== 'undefined'
+        const unsubscribe = onShowExitDialog(() => {
+            setIsOpen(true)
+        })
 
-        setIsElectron(electronCheck)
-
-        if (electronCheck) {
-            try {
-                const { ipcRenderer } = (window as any).require('electron')
-
-                // Listen for close request from main process
-                const handleShowExitDialog = () => {
-                    setIsOpen(true)
-                }
-
-                ipcRenderer.on('show-exit-dialog', handleShowExitDialog)
-
-                return () => {
-                    ipcRenderer.removeListener('show-exit-dialog', handleShowExitDialog)
-                }
-            } catch (error) {
-                console.error('Failed to setup IPC listener:', error)
-            }
+        return () => {
+            unsubscribe()
         }
     }, [])
 
     const handleConfirm = React.useCallback(async (dontAskAgain: boolean) => {
         setIsOpen(false)
+        await confirmExit(dontAskAgain)
+    }, [])
 
-        if (isElectron) {
-            try {
-                const { ipcRenderer } = (window as any).require('electron')
-
-                // Save preference if checked
-                if (dontAskAgain) {
-                    await ipcRenderer.invoke('set-skip-close-confirmation', true)
-                }
-
-                // Tell main process to close
-                ipcRenderer.send('confirm-exit')
-            } catch (error) {
-                console.error('Failed to confirm exit:', error)
-            }
-        }
-    }, [isElectron])
-
-    const handleCancel = React.useCallback(() => {
+    const handleCancel = React.useCallback(async () => {
         setIsOpen(false)
-
-        if (isElectron) {
-            try {
-                const { ipcRenderer } = (window as any).require('electron')
-                ipcRenderer.send('cancel-exit')
-            } catch (error) {
-                console.error('Failed to cancel exit:', error)
-            }
-        }
-    }, [isElectron])
+        await cancelExit()
+    }, [])
 
     const showExitDialog = React.useCallback(() => {
         setIsOpen(true)

@@ -420,32 +420,40 @@ const SidebarContent = React.forwardRef<
     [ref]
   )
 
-  // Restore scroll position after component mounts/updates
+  // Restore scroll position once on initial mount after layout settles
   React.useEffect(() => {
     const element = internalRef.current
-    if (element) {
-      try {
-        const savedPosition = sessionStorage.getItem(SIDEBAR_SCROLL_KEY)
-        if (savedPosition) {
-          const position = parseInt(savedPosition, 10)
+    if (!element) return
+
+    try {
+      const savedPosition = sessionStorage.getItem(SIDEBAR_SCROLL_KEY)
+      if (savedPosition) {
+        const position = parseInt(savedPosition, 10)
+        if (!isNaN(position) && position > 0) {
           isRestoringScroll.current = true
-          element.scrollTop = position
-          // Reset the flag after a brief delay
-          setTimeout(() => {
-            isRestoringScroll.current = false
-          }, 50)
+          // Use RAF to allow dynamic sidebar accordion content to settle
+          const rafId = requestAnimationFrame(() => {
+            if (element) {
+              element.scrollTop = position
+            }
+            setTimeout(() => {
+              isRestoringScroll.current = false
+            }, 100)
+          })
+          return () => cancelAnimationFrame(rafId)
         }
-      } catch {
-        // Ignore storage errors
       }
+    } catch {
+      // Ignore storage errors
     }
-  })
+  }, [])
 
   // Save scroll position on scroll (only if not restoring)
   const handleScroll = React.useCallback((e: React.UIEvent<HTMLDivElement>) => {
     if (isRestoringScroll.current) return
+    const currentScrollTop = e.currentTarget.scrollTop
     try {
-      sessionStorage.setItem(SIDEBAR_SCROLL_KEY, String(e.currentTarget.scrollTop))
+      sessionStorage.setItem(SIDEBAR_SCROLL_KEY, String(currentScrollTop))
     } catch {
       // Ignore storage errors
     }

@@ -158,11 +158,20 @@ function getActiveRouteInfo(pathname: string): { title: string; category?: strin
   return { title: formatted };
 }
 
+import {
+  isDesktopApp,
+  minimizeWindow,
+  toggleMaximizeWindow,
+  isWindowMaximized,
+  onWindowMaximizedChange,
+  requestWindowClose,
+} from '@/lib/desktop';
+
 export function TitleBar() {
   const pathname = usePathname();
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
-  const [isElectron, setIsElectron] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(false);
   const [isMaximized, setIsMaximized] = useState(false);
 
   const routeInfo = useMemo(() => getActiveRouteInfo(pathname), [pathname]);
@@ -170,67 +179,28 @@ export function TitleBar() {
   // Handle client mount
   useEffect(() => {
     setMounted(true);
-  }, []);
+    setIsDesktop(isDesktopApp());
 
-  // Detect Electron environment and listen to window state
-  useEffect(() => {
-    const electronAvailable =
-      typeof window !== 'undefined' &&
-      typeof (window as any).require !== 'undefined';
+    const unsubscribe = onWindowMaximizedChange((maximized: boolean) => {
+      setIsMaximized(maximized);
+    });
 
-    setIsElectron(electronAvailable);
-
-    if (electronAvailable) {
-      try {
-        const { ipcRenderer } = (window as any).require('electron');
-
-        // Check initial maximize state
-        ipcRenderer.invoke('is-window-maximized').then((maximized: boolean) => {
-          setIsMaximized(Boolean(maximized));
-        }).catch(() => {});
-
-        // Listen for maximize/unmaximize state changes
-        const handleMaxChange = (_: any, maximized: boolean) => {
-          setIsMaximized(Boolean(maximized));
-        };
-
-        ipcRenderer.on('window-maximized-change', handleMaxChange);
-
-        return () => {
-          ipcRenderer.removeListener('window-maximized-change', handleMaxChange);
-        };
-      } catch (error) {
-        console.error('Failed to setup Electron titlebar IPC:', error);
-      }
-    }
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   // Window control actions
   const handleMinimize = () => {
-    if (isElectron) {
-      try {
-        const { ipcRenderer } = (window as any).require('electron');
-        ipcRenderer.send('window-minimize');
-      } catch (e) {}
-    }
+    minimizeWindow();
   };
 
   const handleMaximize = () => {
-    if (isElectron) {
-      try {
-        const { ipcRenderer } = (window as any).require('electron');
-        ipcRenderer.send('window-maximize');
-      } catch (e) {}
-    }
+    toggleMaximizeWindow();
   };
 
   const handleClose = () => {
-    if (isElectron) {
-      try {
-        const { ipcRenderer } = (window as any).require('electron');
-        ipcRenderer.send('window-close');
-      } catch (e) {}
-    }
+    requestWindowClose();
   };
 
   // Double click drag area to toggle maximize
@@ -283,6 +253,7 @@ export function TitleBar() {
 
   return (
     <header
+      data-tauri-drag-region
       onDoubleClick={handleTitleBarDoubleClick}
       className={cn(
         'h-10 w-full flex items-center justify-between px-2.5 select-none text-xs font-medium',

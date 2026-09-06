@@ -27,8 +27,8 @@ export default function ChromeWebStorePage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="md:col-span-2 border-none bg-blue-500/5 hover:bg-blue-500/10 transition-colors duration-300">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2 border-none bg-blue-500/5 hover:bg-blue-500/10 transition-colors duration-300">
                     <CardHeader>
                         <CardTitle className="text-blue-600 dark:text-blue-400">Overview</CardTitle>
                     </CardHeader>
@@ -58,22 +58,22 @@ export default function ChromeWebStorePage() {
                         <CardDescription>Official developer links</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn" asChild>
-                            <a href="https://chrome.google.com/webstore/devconsole" target="_blank" rel="noreferrer">
-                                Developer Dashboard
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://chrome.google.com/webstore/devconsole" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Developer Dashboard</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn" asChild>
-                            <a href="https://developer.chrome.com/docs/extensions/" target="_blank" rel="noreferrer">
-                                Extension Documentation
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://developer.chrome.com/docs/extensions/" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Extension Documentation</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn" asChild>
-                            <a href="https://developer.chrome.com/docs/webstore/program-policies/" target="_blank" rel="noreferrer">
-                                Program Policies
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-blue-500 hover:text-blue-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://developer.chrome.com/docs/webstore/program-policies/" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Program Policies</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
                     </CardContent>

@@ -27,8 +27,8 @@ export default function PlayStorePage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="md:col-span-2 border-none bg-amber-500/5 hover:bg-amber-500/10 transition-colors duration-300">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2 border-none bg-amber-500/5 hover:bg-amber-500/10 transition-colors duration-300">
                     <CardHeader>
                         <CardTitle className="text-amber-500">Overview</CardTitle>
                     </CardHeader>
@@ -59,16 +59,16 @@ export default function PlayStorePage() {
                         <CardDescription>Useful links</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-500 group/btn" asChild>
-                            <a href="https://play.google.com/console" target="_blank" rel="noreferrer">
-                                Google Play Console
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-500 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://play.google.com/console" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Google Play Console</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-500 group/btn" asChild>
-                            <a href="https://developer.android.com/distribute" target="_blank" rel="noreferrer">
-                                Documentation
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-500 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://developer.android.com/distribute" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Documentation</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
                         

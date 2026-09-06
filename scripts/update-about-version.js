@@ -7,27 +7,31 @@ if (!newVersion) {
     process.exit(1);
 }
 
-// 1. Check/Update settings/page.tsx
-const settingsPath = path.join(__dirname, '../src/app/(main)/settings/page.tsx');
-if (fs.existsSync(settingsPath)) {
-    let content = fs.readFileSync(settingsPath, 'utf8');
-
-    // Replace if hardcoded version string exists
-    const regex = /(<span className="text-sm text-muted-foreground">Version<\/span>\s*<span className="text-sm font-medium">)[^<]+(<\/span>)/;
-    if (regex.test(content)) {
-        content = content.replace(regex, `$1${newVersion}$2`);
-        fs.writeFileSync(settingsPath, content);
+// 1. Sync src-tauri/tauri.conf.json
+const tauriConfPath = path.join(__dirname, '../src-tauri/tauri.conf.json');
+if (fs.existsSync(tauriConfPath)) {
+    try {
+        const conf = JSON.parse(fs.readFileSync(tauriConfPath, 'utf8'));
+        conf.version = newVersion;
+        fs.writeFileSync(tauriConfPath, JSON.stringify(conf, null, 2) + '\n');
+        console.log(`[OK] src-tauri/tauri.conf.json synced with version ${newVersion}`);
+    } catch (e) {
+        console.error('Failed to update tauri.conf.json:', e);
     }
-    console.log(`[OK] Settings/About page synced with version ${newVersion}`);
-} else {
-    console.warn('settings/page.tsx not found!');
 }
 
-// 2. Verify Titlebar version linkage
-const titlebarPath = path.join(__dirname, '../src/components/titlebar.tsx');
-if (fs.existsSync(titlebarPath)) {
-    console.log(`[OK] TitleBar badge automatically inherits v${newVersion} from package.json`);
-} else {
-    console.warn('titlebar.tsx not found!');
+// 2. Sync src-tauri/Cargo.toml
+const cargoPath = path.join(__dirname, '../src-tauri/Cargo.toml');
+if (fs.existsSync(cargoPath)) {
+    try {
+        let content = fs.readFileSync(cargoPath, 'utf8');
+        content = content.replace(/^version\s*=\s*"[^"]*"/m, `version = "${newVersion}"`);
+        fs.writeFileSync(cargoPath, content);
+        console.log(`[OK] src-tauri/Cargo.toml synced with version ${newVersion}`);
+    } catch (e) {
+        console.error('Failed to update Cargo.toml:', e);
+    }
 }
 
+// 3. Verify UI auto-sync
+console.log(`[OK] Settings/About and TitleBar automatically inherit v${newVersion} from package.json`);

@@ -27,8 +27,8 @@ export default function OpenUserJSPage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="md:col-span-2 border-none bg-sky-500/5 hover:bg-sky-500/10 transition-colors duration-300">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2 border-none bg-sky-500/5 hover:bg-sky-500/10 transition-colors duration-300">
                     <CardHeader>
                         <CardTitle className="text-sky-600 dark:text-sky-400">Overview</CardTitle>
                     </CardHeader>
@@ -58,22 +58,22 @@ export default function OpenUserJSPage() {
                         <CardDescription>Official developer links</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn" asChild>
-                            <a href="https://openuserjs.org/" target="_blank" rel="noreferrer">
-                                OpenUserJS Home
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://openuserjs.org/" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">OpenUserJS Home</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn" asChild>
-                            <a href="https://openuserjs.org/about/Userscript-Beginners-HOWTO" target="_blank" rel="noreferrer">
-                                Beginners Guide
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://openuserjs.org/about/Userscript-Beginners-HOWTO" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Beginners Guide</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn" asChild>
-                            <a href="https://github.com/OpenUserJs/OpenUserJS.org" target="_blank" rel="noreferrer">
-                                GitHub Repository
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between hover:border-sky-500 hover:text-sky-600 group/btn h-auto min-h-10 py-2.5 px-3.5 whitespace-normal" asChild>
+                            <a href="https://github.com/OpenUserJs/OpenUserJS.org" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">GitHub Repository</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
                     </CardContent>

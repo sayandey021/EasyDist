@@ -28,6 +28,7 @@ import { z } from 'zod';
 import { useTheme } from '@/components/theme-provider';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
+import packageInfo from '../../../../package.json';
 import {
   Tooltip,
   TooltipContent,
@@ -35,7 +36,6 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { settingsKey, settingsSchema, SettingsData } from '@/lib/settings';
-import packageInfo from '../../../../package.json';
 
 const themes = [
   { name: 'zinc', color: 'hsl(240 5.9% 10%)' },
@@ -52,6 +52,12 @@ const themes = [
   { name: 'violet', color: 'hsl(262.1 83.3% 57.8%)' },
 ];
 
+import {
+  isDesktopApp,
+  getSkipCloseConfirmation,
+  setSkipCloseConfirmation,
+} from '@/lib/desktop';
+
 export default function SettingsPage() {
   const { toast } = useToast();
   const { theme, setTheme, accentTheme, setAccentTheme } = useTheme();
@@ -60,16 +66,10 @@ export default function SettingsPage() {
 
   useEffect(() => {
     setMounted(true);
-    // Load the exit confirmation setting from Electron store
-    if (typeof window !== 'undefined' && (window as any).require) {
-      try {
-        const { ipcRenderer } = (window as any).require('electron');
-        ipcRenderer.invoke('get-skip-close-confirmation').then((skipConfirmation: boolean) => {
-          setShowExitConfirmation(!skipConfirmation);
-        });
-      } catch (error) {
-        console.error('Failed to load exit confirmation setting:', error);
-      }
+    if (isDesktopApp()) {
+      getSkipCloseConfirmation().then((skip) => {
+        setShowExitConfirmation(!skip);
+      }).catch(() => {});
     }
   }, []);
 
@@ -278,12 +278,9 @@ export default function SettingsPage() {
                 <Switch
                   checked={showExitConfirmation}
                   onCheckedChange={async (checked) => {
-                    // Check if we're in Electron environment
-                    if (typeof window !== 'undefined' && (window as any).require) {
+                    if (isDesktopApp()) {
                       try {
-                        const { ipcRenderer } = (window as any).require('electron');
-                        // skipCloseConfirmation is the opposite of showExitConfirmation
-                        await ipcRenderer.invoke('set-skip-close-confirmation', !checked);
+                        await setSkipCloseConfirmation(!checked);
                         setShowExitConfirmation(checked);
                         toast({
                           title: 'Setting Updated',
@@ -296,7 +293,7 @@ export default function SettingsPage() {
                         toast({
                           variant: 'destructive',
                           title: 'Error',
-                          description: 'Failed to update setting. This feature only works in the desktop app.',
+                          description: 'Failed to update setting.',
                         });
                       }
                     } else {
@@ -333,7 +330,7 @@ export default function SettingsPage() {
             </div>
             <div className="flex items-center justify-between py-2 border-b border-border/50">
               <span className="text-sm text-muted-foreground">Version</span>
-              <span className="text-sm font-medium">1.6.0</span>
+              <span className="text-sm font-medium">{packageInfo.version}</span>
             </div>
             <div className="flex items-center justify-between py-2 border-b border-border/50">
               <span className="text-sm text-muted-foreground">Developer</span>

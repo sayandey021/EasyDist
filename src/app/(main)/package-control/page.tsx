@@ -27,25 +27,25 @@ export default function PackageControlPage() {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <Card className="md:col-span-2 border-none bg-amber-500/5 hover:bg-amber-500/10 transition-colors duration-300">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <Card className="lg:col-span-2 border-none bg-amber-500/5 hover:bg-amber-500/10 transition-colors duration-300">
                     <CardHeader>
                         <CardTitle className="text-amber-600 dark:text-amber-400">Overview</CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-4">
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Package Control is the ubiquitous package manager for Sublime Text 3 and 4, used by millions of developers worldwide. It enables discovering, installing, upgrading, and removing packages directly from Sublime Text&apos;s command palette.
+                            Package Control is the de-facto package manager for Sublime Text 3 and 4. It provides discovering, installing, and updating packages and themes with a vast catalog maintained by the open-source community.
                         </p>
                         <p className="text-sm text-muted-foreground leading-relaxed">
-                            Publishing a package is done through a simple Pull Request to the open-source <code>package_control_channel</code> repository on GitHub. Once accepted, Package Control automatically crawls your repository tags and releases, distributing updates with zero manual intervention.
+                            Publishing is decentralized and repository-driven: packages are submitted by opening a Pull Request to the <code>package_control_channel</code> repository on GitHub, referencing your Git repository tags or GitHub Releases.
                         </p>
                         
                         <div className="flex flex-wrap gap-2 pt-2">
-                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Free & Open Source</Badge>
-                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Git Tag Automated Sync</Badge>
-                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Python & JSON</Badge>
+                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">100% Free</Badge>
+                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">GitHub PR Based</Badge>
+                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Python 3.3 / 3.8</Badge>
                             <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Sublime Text 3 & 4</Badge>
-                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Cross-Platform</Badge>
+                            <Badge variant="secondary" className="bg-amber-500/10 text-amber-600 dark:text-amber-400">Automated Crawling</Badge>
                         </div>
                     </CardContent>
                 </Card>
@@ -59,22 +59,22 @@ export default function PackageControlPage() {
                         <CardDescription>Official links</CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
-                            <a href="https://packagecontrol.io/" target="_blank" rel="noreferrer">
-                                Package Control Home
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between h-auto min-h-10 py-2.5 px-3.5 whitespace-normal hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
+                            <a href="https://packagecontrol.io/" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Package Control Home</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
-                            <a href="https://packagecontrol.io/docs/submitting_a_package" target="_blank" rel="noreferrer">
-                                Submitting a Package Guide
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between h-auto min-h-10 py-2.5 px-3.5 whitespace-normal hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
+                            <a href="https://packagecontrol.io/docs/submitting_a_package" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Submitting a Package Guide</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
-                        <Button variant="outline" className="w-full justify-between hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
-                            <a href="https://github.com/wbond/package_control_channel" target="_blank" rel="noreferrer">
-                                Channel Repository (GitHub)
-                                <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100" />
+                        <Button variant="outline" className="w-full justify-between h-auto min-h-10 py-2.5 px-3.5 whitespace-normal hover:border-amber-500 hover:text-amber-600 group/btn" asChild>
+                            <a href="https://github.com/wbond/package_control_channel" target="_blank" rel="noreferrer" className="flex items-center justify-between w-full gap-2">
+                                <span className="text-left text-sm font-medium leading-snug line-clamp-2 break-words flex-1 min-w-0">Channel Repository (GitHub)</span>
+                                <ExternalLink className="h-4 w-4 shrink-0 opacity-50 group-hover/btn:opacity-100 transition-opacity" />
                             </a>
                         </Button>
                     </CardContent>

@@ -1,0 +1,49 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "EasyDist",
+  "version": "1.7.0",
+  "identifier": "com.saayanstudio.easydist",
+  "build": {
+    "frontendDist": "../out",
+    "devUrl": "http://localhost:9002",
+    "beforeDevCommand": "npm run dev",
+    "beforeBuildCommand": "npm run build"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "EasyDist",
+        "width": 1200,
+        "height": 800,
+        "minWidth": 1000,
+        "minHeight": 700,
+        "resizable": true,
+        "fullscreen": false,
+        "decorations": false,
+        "transparent": false,
+        "shadow": true,
+        "center": true,
+        "theme": "Dark"
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "publisher": "Saayan",
+    "copyright": "Copyright © 2026 Saayan Studio",
+    "shortDescription": "EasyDist - Distribution Helper Tool",
+    "longDescription": "EasyDist streamlines cross-platform software packaging, manifest generation, and distribution."
+  }
+}

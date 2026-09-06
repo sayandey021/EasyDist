@@ -1,68 +1,29 @@
 {
-  "name": "nextn",
-  "version": "1.6.0",
+  "name": "easydist",
+  "version": "1.7.0",
   "description": "EasyDist - Distribution Helper Tool",
   "author": "Saayan Studio",
   "private": true,
-  "main": "electron/main.js",
   "scripts": {
     "dev": "next dev --turbopack -p 9002",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "electron:dev": "concurrently -k \"cross-env NODE_ENV=development npm run dev\" \"wait-on http://localhost:9002 && cross-env NODE_ENV=development electron .\"",
-    "electron:build": "npm run build && electron-builder",
-    "electron:build:nsis": "npm run build && electron-builder --win nsis",
-    "electron:build:msix": "npm run build && electron-builder --win appx",
-    "package": "electron-builder --dir"
-  },
-  "build": {
-    "appId": "com.saayanstudio.easydist",
-    "productName": "EasyDist",
-    "icon": "icon.png",
-    "directories": {
-      "output": "dist"
-    },
-    "files": [
-      "out/**/*",
-      "electron/**/*",
-      "package.json",
-      "icon.png"
-    ],
-    "win": {
-      "target": [
-        "nsis",
-        "appx"
-      ],
-      "icon": "icon.png"
-    },
-    "nsis": {
-      "oneClick": false,
-      "allowToChangeInstallationDirectory": true,
-      "include": "installer/uninstaller.nsh"
-    },
-    "appx": {
-      "identityName": "Saayan.EasyDist",
-      "publisher": "CN=37E2AF47-D2FC-489C-BDC1-02C989A7B989",
-      "publisherDisplayName": "Saayan",
-      "applicationId": "EasyDist",
-      "displayName": "EasyDist",
-      "minVersion": "10.0.17763.0",
-      "languages": [
-        "en-US"
-      ],
-      "showNameOnTiles": true,
-      "backgroundColor": "#1f1f23",
-      "electronUpdaterAware": false
-    }
+    "tauri": "tauri",
+    "tauri:dev": "tauri dev",
+    "tauri:build": "tauri build",
+    "tauri:build:nsis": "tauri build --bundles nsis",
+    "tauri:build:msi": "tauri build --bundles msi",
+    "tauri:build:msix": "node scripts/build-msix.js",
+    "clean": "node scripts/clean.js",
+    "clean:all": "node scripts/clean.js --all"
   },
   "dependencies": {
-    "dotenv": "^16.5.0",
-    "electron-serve": "^3.0.0",
-    "electron-store": "^11.0.2",
-    "koffi": "^2.14.1",
-    "mica-electron": "^1.5.16"
+    "@tauri-apps/api": "^2.11.1",
+    "@tauri-apps/plugin-opener": "^2.5.5",
+    "@tauri-apps/plugin-store": "^2.4.4",
+    "dotenv": "^16.5.0"
   },
   "devDependencies": {
     "@hookform/resolvers": "^4.1.3",
@@ -87,6 +48,7 @@
     "@radix-ui/react-tabs": "^1.1.3",
     "@radix-ui/react-toast": "^1.2.6",
     "@radix-ui/react-tooltip": "^1.1.8",
+    "@tauri-apps/cli": "^2.11.4",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
@@ -95,8 +57,6 @@
     "concurrently": "^9.2.1",
     "cross-env": "^10.1.0",
     "date-fns": "^3.6.0",
-    "electron": "^39.2.7",
-    "electron-builder": "^26.0.12",
     "embla-carousel-react": "^8.6.0",
     "framer-motion": "^12.23.26",
     "lucide-react": "^0.475.0",

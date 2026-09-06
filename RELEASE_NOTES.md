@@ -1,3 +1,39 @@
+# EasyDist v1.7.0 Release Notes
+
+**Release Date:** September 6, 2026
+
+We are thrilled to announce **EasyDist v1.7.0**! This milestone release marks the complete migration of EasyDist from Electron to a blazing-fast, Rust-powered **Tauri v2** desktop core, coupled with a comprehensive responsive UI overhaul across all 73 platform pages, enhanced sidebar navigation memory, and automated multi-format packaging pipelines.
+
+## 🚀 Highlights & Architectural Upgrades
+
+### Next-Gen Desktop Architecture (Tauri v2)
+*   **Tauri v2 Migration:** Replaced the heavy Electron runtime with a high-performance, memory-efficient Tauri v2 desktop core written in Rust.
+*   **Instant Startup & Low Resource Footprint:** Reduced idle memory consumption and dramatically accelerated application launch and hot-reload times.
+*   **Single-Instance Window Manager:** Built-in single-instance lock that automatically focuses and restores the active window when a secondary instance is launched.
+*   **Native External Link Routing:** Integrated `@tauri-apps/plugin-opener` for seamless, safe dispatch of external web links into the user's default browser.
+*   **Frameless Titlebar & Window Controls:** Full parity for the custom Windows 11 frameless titlebar with native `data-tauri-drag-region` window dragging, double-click to maximize, and smooth theme toggling.
+*   **Fluent UI Exit Confirmation:** Native interception of window close events to present EasyDist's custom exit confirmation dialog with persistent preference storage.
+
+## 🎨 UI & UX Improvements
+
+### Responsive Resources Cards (All 73 Pages)
+*   **Adaptive 3-Column Layout:** Upgraded top overview containers across all 73 storefronts and package manager pages to `grid-cols-1 lg:grid-cols-3`, preventing column squeeze on compact and windowed displays.
+*   **Word Wrapping & Dynamic Heights:** Replaced fixed-height `whitespace-nowrap` buttons with `h-auto min-h-10 py-2.5 px-3.5 whitespace-normal` and `line-clamp-2 break-words` text wrapping for long resource titles.
+*   **Fixed-Position Action Icons:** Added `shrink-0` to all `<ExternalLink />` icons, ensuring they remain crisply bounded inside button borders without clipping.
+
+### Sidebar Scroll Position Stability
+*   **Navigation Scroll Retention:** Fixed sidebar scrolling behavior so navigating between platforms and categories maintains the exact scroll position without resetting to the top of the list.
+
+## 📦 Build & Packaging Pipeline
+
+### Automated MSIX & Installer Tools
+*   **Windows Store MSIX Builder (`build-msix.bat`):** Introduced a one-click automated MSIX packager leveraging Windows SDK `MakeAppx.exe` to build store-ready `.msix` packages directly from Tauri release binaries.
+*   **Multi-Format Installers:** Added dedicated scripts for building standalone Windows **NSIS** (`npm run tauri:build:nsis`) and **MSI** (`npm run tauri:build:msi`) installer packages.
+*   **Synchronized Version Tooling (`change-version.bat`):** Upgraded version changer script to atomically sync versions across `package.json`, `src-tauri/tauri.conf.json`, `src-tauri/Cargo.toml`, and the Titlebar/Settings UI.
+*   **Disk Space Cleanup (`npm run clean:all`):** Added automated build cache cleanup utilities that wipe intermediate Rust/Cargo and Next.js target files, reclaiming gigabytes of disk space on demand.
+
+---
+
 # EasyDist v1.6.0 Release Notes
 
 **Release Date:** September 6, 2026

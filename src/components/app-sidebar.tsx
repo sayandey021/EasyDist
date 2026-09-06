@@ -47,10 +47,18 @@ import { PlatformLogos } from '@/components/platform-icons';
 // Storage key for persisting category states
 const STORAGE_KEY = 'sidebar-categories-state';
 
+// Helper to accurately match active item route avoiding partial prefix collisions (e.g. /obs vs /obsidian-plugins, /go vs /gog)
+const isItemActive = (itemHref: string, pathname: string): boolean => {
+  if (itemHref === '/') {
+    return pathname === '/';
+  }
+  return pathname === itemHref || pathname.startsWith(itemHref + '/');
+};
+
 // Hook to persist category open states - defers localStorage read to avoid hydration mismatch
-function useCategoryState(categoryId: string, defaultOpen: boolean) {
+function useCategoryState(categoryId: string, defaultOpen: boolean, forceOpen?: boolean) {
   // Always start with defaultOpen to match server render
-  const [isOpen, setIsOpen] = useState<boolean>(defaultOpen);
+  const [isOpen, setIsOpen] = useState<boolean>(defaultOpen || !!forceOpen);
   const [hasMounted, setHasMounted] = useState(false);
 
   // Sync with localStorage after mount to avoid hydration mismatch
@@ -60,14 +68,24 @@ function useCategoryState(categoryId: string, defaultOpen: boolean) {
       if (stored) {
         const states = JSON.parse(stored);
         if (typeof states[categoryId] === 'boolean') {
-          setIsOpen(states[categoryId]);
+          // If active item is currently inside this section, keep it open!
+          if (!forceOpen) {
+            setIsOpen(states[categoryId]);
+          }
         }
       }
     } catch {
       // Ignore storage errors
     }
     setHasMounted(true);
-  }, [categoryId]);
+  }, [categoryId, forceOpen]);
+
+  // Keep section open if active item is inside this section
+  useEffect(() => {
+    if (forceOpen) {
+      setIsOpen(true);
+    }
+  }, [forceOpen]);
 
   // Save state to localStorage when it changes (only after mount)
   const toggleOpen = useCallback(() => {
@@ -110,7 +128,7 @@ const MenuItem = memo(function MenuItem({
         tooltip={{ children: label }}
         className="transition-colors duration-150"
       >
-        <Link href={href} prefetch={true}>
+        <Link href={href} prefetch={true} scroll={false}>
           {logoPath ? (
             <Image
               src={logoPath}
@@ -143,19 +161,19 @@ const CollapsibleSection = memo(function CollapsibleSection({
   pathname: string;
   defaultOpen?: boolean;
 }) {
-  const hasActiveItem = items.some(item => 
-    item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
-  );
+  const hasActiveItem = items.some(item => isItemActive(item.href, pathname));
 
   const { isOpen, toggleOpen } = useCategoryState(
     id,
-    defaultOpen || hasActiveItem
+    defaultOpen || hasActiveItem,
+    hasActiveItem
   );
 
   return (
     <SidebarGroup>
       <SidebarGroupLabel asChild>
         <button
+          type="button"
           onClick={toggleOpen}
           className={cn(
             "flex w-full items-center justify-between p-2 text-sm font-medium rounded-md",
@@ -190,7 +208,7 @@ const CollapsibleSection = memo(function CollapsibleSection({
               icon={item.icon}
               logoPath={item.logoPath}
               label={item.label}
-              isActive={item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)}
+              isActive={isItemActive(item.href, pathname)}
             />
           ))}
         </SidebarGroupContent>
@@ -391,11 +409,29 @@ const ThemeToggle = memo(function ThemeToggle() {
 const AppSidebar = () => {
   const pathname = usePathname();
 
+  // Ensure active item is smoothly kept in view without resetting scroll to top
+  useEffect(() => {
+    if (!pathname || pathname === '/') return;
+
+    const timer = setTimeout(() => {
+      const activeElement = document.querySelector<HTMLElement>(
+        `[data-sidebar="content"] a[href="${pathname}"][data-active="true"]`
+      ) || document.querySelector<HTMLElement>(
+        '[data-sidebar="content"] [data-active="true"]'
+      );
+      if (activeElement) {
+        activeElement.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }
+    }, 60);
+
+    return () => clearTimeout(timer);
+  }, [pathname]);
+
   return (
     <>
       <SidebarHeader>
         <div className="flex items-center gap-2 p-2">
-          <Link href="/" prefetch={true} className="flex items-center gap-2">
+          <Link href="/" prefetch={true} scroll={false} className="flex items-center gap-2">
             <Image
               src="/icon.png"
               alt="EasyDist Logo"
@@ -502,7 +538,7 @@ const AppSidebar = () => {
             href="/settings"
             icon={Settings}
             label="Settings"
-            isActive={pathname.startsWith('/settings')}
+            isActive={isItemActive('/settings', pathname)}
           />
         </SidebarMenu>
       </SidebarFooter>
